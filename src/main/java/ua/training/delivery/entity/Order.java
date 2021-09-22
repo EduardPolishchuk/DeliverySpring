@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 @Builder
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 
 @Entity
@@ -22,14 +23,15 @@ public class Order {
     @Column (name = "request_date")
     private LocalDate requestDate;
 
-    @Column (name = "user_sender")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_sender")
     private User userSender;
 
-    @OneToOne(mappedBy = "id")
+    @OneToOne()
+    @JoinColumn(name = "parcel_id")
     private Parcel parcel;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private City cityTo;
 
     @ManyToOne()
@@ -38,6 +40,5 @@ public class Order {
     @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
-
 
 }
