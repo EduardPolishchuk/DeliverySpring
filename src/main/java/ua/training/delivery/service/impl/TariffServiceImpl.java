@@ -20,8 +20,8 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public Optional<Tariff> getTariff() {
-        return tariffRepository.findById(1L);
+    public Tariff getTariff() {
+        return tariffRepository.findById(1L).orElse(new Tariff());
     }
 
     @Override

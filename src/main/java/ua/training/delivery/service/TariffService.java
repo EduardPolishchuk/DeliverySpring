@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface TariffService {
 
-    Optional<Tariff> getTariff();
+    Tariff getTariff();
 
     boolean updateTariff(Tariff tariff);
 }
