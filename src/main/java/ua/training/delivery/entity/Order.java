@@ -1,25 +1,43 @@
 package ua.training.delivery.entity;
 
-import java.time.LocalDate;
-import java.util.Objects;
+import lombok.*;
 
+import javax.persistence.*;
+import java.time.LocalDate;
+
+@Builder
+@Data
+@NoArgsConstructor
+
+@Entity
+@Table(name = "order")
 public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column (name = "receiving_date")
     private LocalDate receivingDate;
+
+    @Column (name = "request_date")
     private LocalDate requestDate;
-    private long id;
+
+    @Column (name = "user_sender")
+    @ManyToOne(fetch = FetchType.EAGER)
     private User userSender;
-    private ua.training.delivery.entity.Parcel parcel;
-    private ua.training.delivery.entity.City cityTo;
-    private ua.training.delivery.entity.City cityFrom;
+
+    @OneToOne(mappedBy = "id")
+    private Parcel parcel;
+
+    @ManyToOne
+    private City cityTo;
+
+    @ManyToOne()
+    private City cityFrom;
+
+    @Column(name = "order_status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
 
-
-    public enum OrderStatus {
-        WAITING_FOR_CONFIRM,
-        WAITING_FOR_PAYMENT,
-        PARCEL_DELIVERY,
-        DELIVERED,
-        CANCELED
-    }
 }

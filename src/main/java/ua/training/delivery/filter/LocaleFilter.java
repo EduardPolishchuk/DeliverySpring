@@ -1,4 +1,4 @@
-package ua.training.delivery.controller.filter;
+package ua.training.delivery.filter;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;

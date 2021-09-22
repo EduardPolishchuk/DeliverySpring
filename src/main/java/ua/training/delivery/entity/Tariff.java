@@ -1,22 +1,27 @@
 package ua.training.delivery.entity;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
-@Getter
+import javax.persistence.*;
+
 @Builder
+@Data
+@NoArgsConstructor
 
+@Entity
+@Table(name = "tariff")
 public class Tariff {
-    long id;
-    float uahPerKilometerDistance;
-    float uahPerMillimeterLength;
-    float uahPerMillimeterWidth;
-    float uahPerMillimeterHeight;
-    float uahPerKilogramWeight;
-    float additional;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
+   private float uahPerKilometerDistance;
+   private float uahPerMillimeterLength;
+   private float uahPerMillimeterWidth;
+   private float uahPerMillimeterHeight;
+   private float uahPerKilogramWeight;
+   private float additional;
 
 
 }
