@@ -2,6 +2,7 @@ package ua.training.delivery.filter;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
