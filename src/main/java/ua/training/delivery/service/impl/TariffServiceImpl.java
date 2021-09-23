@@ -6,8 +6,6 @@ import ua.training.delivery.entity.Tariff;
 import ua.training.delivery.repository.TariffRepository;
 import ua.training.delivery.service.TariffService;
 
-import java.util.Optional;
-
 
 @Service
 public class TariffServiceImpl implements TariffService {
@@ -21,7 +19,7 @@ public class TariffServiceImpl implements TariffService {
 
     @Override
     public Tariff getTariff() {
-        return tariffRepository.findById(1L).orElse(new Tariff());
+        return tariffRepository.getFirst().orElse(new Tariff());
     }
 
     @Override

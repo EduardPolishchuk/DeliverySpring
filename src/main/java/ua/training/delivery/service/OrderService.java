@@ -14,9 +14,9 @@ public interface OrderService {
 
     Optional<Order> findById(long id);
 
-    boolean create(Order order);
+    Order create(Order order);
 
-    boolean update(Order order);
+    Order update(Order order);
 
     List<Order> findAll();
 
