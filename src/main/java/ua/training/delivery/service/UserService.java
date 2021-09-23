@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface UserService {
 
     Optional<User> findIfValid(String login, String password);
+    Optional<User> findByLogin(String login);
     Optional<User> findById(long id);
     boolean create (User user);
     boolean update(User user);
