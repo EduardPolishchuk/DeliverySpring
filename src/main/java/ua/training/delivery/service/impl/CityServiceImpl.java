@@ -7,7 +7,6 @@ import ua.training.delivery.repository.CityRepository;
 import ua.training.delivery.service.CityService;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -24,7 +23,7 @@ public class CityServiceImpl implements CityService {
         return cityRepository.findAll();
     }
 
-        @Override
+    @Override
     public boolean create(City city) {
         return false;
     }

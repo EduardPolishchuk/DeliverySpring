@@ -6,10 +6,10 @@
 <html>
 <head>
     <title>UserMain</title>
-    <jsp:include page="/WEB-INF/common/windowstyle.jsp"/>
+    <jsp:include page="../common/windowstyle.jsp"/>
 </head>
 <body>
-<jsp:include page="/WEB-INF/common/header2.jsp"/>
+<jsp:include page="../common/header2.jsp"/>
 <h2 class="display-3 text-center" style="color: #000102; background-color: rgba(255,238,231,0.87)"><fmt:message key="deliveryService"/></h2>
 <div class="container justify-content-center w-75 ">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-1 g-3">
@@ -24,12 +24,12 @@
                             <div class="col">
                                 <label class="form-label"><fmt:message key="firstName"/></label>
                                 <input type="number" min="1" class="form-control"
-                                       placeholder="${userProfile.firstName}" disabled>
+                                       placeholder="" disabled>
                             </div>
                             <div class="col">
                                 <label class="form-label"><fmt:message key="lastName"/></label>
                                 <input type="number" min="1" class="form-control"
-                                       placeholder="${userProfile.lastName}" disabled>
+                                       placeholder="" disabled>
                             </div>
                         </div>
                         <h5 class="display-7" style="align-content: center"><fmt:message key="parcelParams"/></h5>
@@ -121,7 +121,7 @@
     </div>
 </div>
 
-<jsp:include page="/WEB-INF/common/footer.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
 </body>
 
 </html>

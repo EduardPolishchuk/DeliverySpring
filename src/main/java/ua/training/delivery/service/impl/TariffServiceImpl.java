@@ -24,6 +24,7 @@ public class TariffServiceImpl implements TariffService {
 
     @Override
     public boolean updateTariff(Tariff tariff) {
-        return false;
+        tariffRepository.save(tariff);
+        return true;
     }
 }

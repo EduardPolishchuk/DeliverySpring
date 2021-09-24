@@ -20,7 +20,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h3 class="display-5"><fmt:message key="enterYourData"/></h3>
-                        <form method="post"  action="${pageContext.request.contextPath}/signUp">
+                        <form method="post"  action="${pageContext.request.contextPath}/signUp/up">
                             <div class="mb-2 ">
                                 <label  class="form-label"><fmt:message key="userName"/> </label>
                                 <input type="text" class="form-control" name="login" value="${param.login}" required>

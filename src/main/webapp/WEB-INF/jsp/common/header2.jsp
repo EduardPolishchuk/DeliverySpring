@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="locale/resources"/>
 
@@ -18,6 +19,9 @@
         crossorigin="anonymous"></script>
 
 <header class="p-3 bg-dark text-white">
+    <sec:authorize access="hasRole('USER')">
+        <h5 class="display-6 col-lg-auto  mb-lg-0 me-lg-2" style="color: aliceblue">QWEQWE + ${userProfile.login}
+    </sec:authorize>
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="${pageContext.request.contextPath}/"
@@ -28,7 +32,7 @@
             </a>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <c:choose>
-                    <c:when test="${role == 'USER'}">
+                    <c:when test="${userProfile.role == 'USER'}">
                         <li><a href="${pageContext.request.contextPath}/"
                                class="nav-link px-2 text-primary"><strong><fmt:message key="home"/> </strong></a></li>
                         <li><a href="${pageContext.request.contextPath}/user/userOrders"
@@ -38,7 +42,7 @@
                         <li><a href="${pageContext.request.contextPath}/user/userprofile.jsp"
                                class="nav-link px-2 text-white"><fmt:message key="myProfile"/></a></li>
                     </c:when>
-                    <c:when test="${role == 'MANAGER'}">
+                    <c:when test="${userProfile.role == 'MANAGER'}">
                         <li><a href="${pageContext.request.contextPath}/manager/managerOrderList"
                                class="nav-link px-2 text-white"><fmt:message key="orderList"/> </a></li>
                         <li><a href="${pageContext.request.contextPath}/manager/managerClientList"
@@ -51,13 +55,13 @@
                 </c:choose>
             </ul>
                       <c:choose>
-                <c:when test="${role == 'USER' || role == 'MANAGER'}">
+                <c:when test="${userProfile.role == 'USER' || role == 'MANAGER'}">
                     <c:if test="${role == 'MANAGER'}">
                         <h6 class="display-11" style="color: aliceblue"><fmt:message key="manager"/></h6><br>
                     </c:if>
                     <h5 class="display-6 col-lg-auto  mb-lg-0 me-lg-2" style="color: aliceblue">${userProfile.login}
                     </h5>
-                    <c:if test="${role == 'USER'}">
+                    <c:if test="${userProfile.role == 'USER'}">
                         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-0">
                             <button type="button" class="btn btn-link "
                                     data-bs-toggle="modal" data-bs-target="#exampleModal2"
@@ -71,11 +75,11 @@
                     </form>
                 </c:when>
                 <c:otherwise>
-                    <form action="${pageContext.request.contextPath}/login"
+                    <form method="get" action="${pageContext.request.contextPath}/login"
                           class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-0">
                         <button type="submit" class="btn btn-outline-light me-2"><fmt:message key="singIn"/></button>
                     </form>
-                    <form action="${pageContext.request.contextPath}/signUp"
+                    <form method="get" action="${pageContext.request.contextPath}/signUp"
                           class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
                         <button type="submit" class="btn btn-warning"><fmt:message key="singUp"/></button>
                     </form>

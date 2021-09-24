@@ -2,6 +2,7 @@ package ua.training.delivery.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.OrderStatus;
 import ua.training.delivery.entity.User;
@@ -41,23 +42,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean create(User user) {
-        return false;
+        if (userRepository.existsByLogin(user.getLogin()))
+            return false;
+
+        userRepository.save(user);
+        return true;
     }
 
     @Override
     public boolean update(User user) {
-        return false;
+        userRepository.save(user);
+        return true;
     }
 
     @Override
     public List<User> findAll() {
-        return null;
+        return userRepository.findAll();
     }
 
     @Override
     public BigDecimal getUserBalance(User user) {
-        return null;
+        return userRepository.getUserBalance(user.getId());
     }
 
     @Override
