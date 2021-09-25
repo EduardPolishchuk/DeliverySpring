@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -38,25 +39,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/")
-                    .permitAll()
+                .permitAll()
                 .antMatchers("/manager/*")
-                    .hasRole("MANAGER")
-//                .antMatchers("/user/*")
-//                .hasAnyRole( "USER")
+                .hasRole("MANAGER")
+                .antMatchers("/user/*")
+                .hasAnyRole("USER")
                 .and()
-        .exceptionHandling()
+                .exceptionHandling()
                 .accessDeniedPage("/noAccess")
                 .and()
-        .formLogin()
+                .formLogin()
                 .loginPage("/login")
 //                .loginProcessingUrl("/login/in")
 //                .failureUrl("/error")
                 .usernameParameter("login")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/")
+//                .successHandler(successHandler())
                 .permitAll()
+//                .successForwardUrl("")
                 .and()
-        .logout()
+                .logout()
                 .permitAll()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/")
@@ -69,4 +71,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+    @Bean
+    public SavedRequestAwareAuthenticationSuccessHandler successHandler() {
+        SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+        successHandler.setTargetUrlParameter("/succeslogin");
+        return successHandler;
+    }
+
+
 }

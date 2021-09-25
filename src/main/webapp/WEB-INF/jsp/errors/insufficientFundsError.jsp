@@ -20,7 +20,7 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h4 class="display-5" style="text-align: center"><fmt:message key="insufficientFunds"/></h4>
-                    <form method="post" action="${pageContext.request.contextPath}/">
+                    <form method="get" action="${pageContext.request.contextPath}/">
                         <button type="submit" class="btn btn-primary"><fmt:message key="home"/></button>
                     </form>
                 </div>

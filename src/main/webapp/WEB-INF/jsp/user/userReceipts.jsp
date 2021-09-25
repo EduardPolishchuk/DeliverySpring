@@ -29,7 +29,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="receipt" items="${userReceipts}">
+                        <c:forEach var="receipt" items="${receiptList}">
                         <tr>
                             <td>${counter}</td>
                                 <c:set var="counter" value="${counter + 1}"/>

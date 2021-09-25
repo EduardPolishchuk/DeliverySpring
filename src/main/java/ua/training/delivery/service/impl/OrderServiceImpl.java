@@ -47,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findUserOrders(User user) {
-        return orderRepository.findUserOrders(user.getId());
+        return orderRepository.findUserOrders(user);
     }
 
     @Override

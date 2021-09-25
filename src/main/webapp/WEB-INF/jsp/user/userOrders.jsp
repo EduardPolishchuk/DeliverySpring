@@ -1,16 +1,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="/WEB-INF/custom_tag.tld" prefix="custom" %>
+<%--<%@ taglib uri="/WEB-INF/custom_tag.tld" prefix="custom" %>--%>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="locale/resources"/>
 <html>
 <head>
     <title>MyOrders</title>
-    <jsp:include page="/WEB-INF/common/windowstyle.jsp"/>
+    <jsp:include page="../common/windowstyle.jsp"/>
 </head>
 <body style="background-color: black">
-<jsp:include page="/WEB-INF/common/header2.jsp"/>
+<jsp:include page="../common/header2.jsp"/>
 <h2 class="display-3 text-center" style="color: #000102; background-color: rgba(255,238,231,0.87)"><fmt:message key="myOrders"/> </h2>
 <div class="row " style="align-self: center">
     <div class="col">
