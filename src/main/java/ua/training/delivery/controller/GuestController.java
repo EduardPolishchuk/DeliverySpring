@@ -41,7 +41,7 @@ public class GuestController {
             if (grantedAuthority.getAuthority().equals("ROLE_USER")) {
                 return "redirect:/user/";
             } else if (grantedAuthority.getAuthority().equals("ROLE_MANAGER")) {
-                return "redirect:/manager/";
+                return "redirect:/manager/order_list";
             }
         }
         model.addAttribute("orderForm", Order.builder().parcel(new Parcel()).build());

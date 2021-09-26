@@ -71,7 +71,7 @@ public class UserController {
 
     @PostMapping
     public String userOrderAction(@ModelAttribute("orderForm") Order orderFrom,
-                                  Model model, HttpSession session, @RequestParam String action) {
+                                  Model model, HttpSession session, @RequestParam() String action) {
 
         if ("makeOrder".equals(action)) {
             User user = (User) session.getAttribute("userProfile");
@@ -89,9 +89,18 @@ public class UserController {
 
     @PostMapping("/change_balance")
     public String changeBalance(HttpSession session, @RequestParam("amount") BigDecimal amount) {
+        if(amount.intValue() < 0){
+            return "error";
+        }
         User user = (User) session.getAttribute("userProfile");
         userService.balanceReplenishment(user, amount);
-        return "success";
+        return "redirect:/success";
+    }
 
+
+    @PostMapping("/pay_receipt")
+    public String payReceipt(){
+
+        return "redirect:/success";
     }
 }

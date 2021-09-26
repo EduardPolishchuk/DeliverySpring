@@ -2,6 +2,7 @@ package ua.training.delivery.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.OrderStatus;
 import ua.training.delivery.entity.Receipt;
@@ -47,8 +48,10 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
+    @Transactional
     public boolean userPaysReceipt(User user, Receipt receipt) {
-        return false;
+        receiptRepository.userPaysReceipt(user,receipt, OrderStatus.WAITING_FOR_PAYMENT);
+        return true;
     }
 
     @Override

@@ -43,13 +43,13 @@
                         </sec:authorize>
 
                         <sec:authorize access="hasRole('MANAGER')">
-                            <li><a href="${pageContext.request.contextPath}/manager/managerOrderList"
+                            <li><a href="${pageContext.request.contextPath}/manager/order_list"
                                    class="nav-link px-2 text-white"><fmt:message key="orderList"/> </a></li>
-                            <li><a href="${pageContext.request.contextPath}/manager/managerClientList"
+                            <li><a href="${pageContext.request.contextPath}/manager/client_list"
                                    class="nav-link px-2 text-white"><fmt:message key="clientList"/></a></li>
-                            <li><a href="${pageContext.request.contextPath}/manager/managerTariffView"
+                            <li><a href="${pageContext.request.contextPath}/manager/tariff"
                                    class="nav-link px-2 text-white"><fmt:message key="changeTariff"/> </a></li>
-                            <li><a href="${pageContext.request.contextPath}/manager/managerAddCity"
+                            <li><a href="${pageContext.request.contextPath}/manager/add_city"
                                    class="nav-link px-2 text-white"><fmt:message key="addCity"/></a></li>
                         </sec:authorize>
 

@@ -8,10 +8,10 @@
 <html>
 <head>
     <title>OrderView</title>
-    <jsp:include page="/WEB-INF/common/windowstyle.jsp"/>
+    <jsp:include page="../common/windowstyle.jsp"/>
 </head>
 <body style="background-color: black">
-<jsp:include page="/WEB-INF/common/header2.jsp"/>
+<jsp:include page="../common/header2.jsp"/>
 <h2 class="display-3 text-center" style="color: #000102; background-color: rgba(255,238,231,0.87)"><fmt:message key="tariff"/></h2>
 <div class="container justify-content-center w-75 ">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-1 g-3">
@@ -93,7 +93,7 @@
 </div>
 <hr>
 
-<jsp:include page="/WEB-INF/common/footer.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>
 

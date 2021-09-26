@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.User;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
@@ -19,4 +20,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("SELECT o FROM Order o where   o.status = :status")
     List<Order> findOrdersWithStatus(@Param("status") String status);
+
+
+
+
+//    List<Order> findAll(Pageable pageable);
+
 }
