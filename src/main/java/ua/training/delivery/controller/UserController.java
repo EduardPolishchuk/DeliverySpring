@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.Parcel;
-import ua.training.delivery.entity.Receipt;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.*;
 
@@ -100,9 +99,9 @@ public class UserController {
 
 
     @PostMapping("/pay_receipt")
-    public String payReceipt(@ModelAttribute("receipt") Receipt receipt) {
-
-//        receiptService.userPaysReceipt()
+    public String payReceipt(HttpSession session, @RequestParam("receiptID") Long receiptId) {
+        User user = (User) session.getAttribute("userProfile");
+        receiptService.userPaysReceipt(user, receiptId);
         return "redirect:/success";
     }
 }

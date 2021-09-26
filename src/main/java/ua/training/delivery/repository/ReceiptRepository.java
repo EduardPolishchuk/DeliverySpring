@@ -18,10 +18,10 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
 
 
     @Modifying
-    @Query("UPDATE Receipt r set r.order.status=?3, " +
+    @Query("UPDATE Receipt r  set r.order.status=?3, " +
             "r.order.userSender.balance= r.order.userSender.balance-r.price, r.paid=1 " +
-            "where r.order.userSender=?1 and r=?2")
-    void  userPaysReceipt(User user, Receipt receipt, OrderStatus status);
+            "where r.order.userSender=?1 and r.id=?2")
+    void  userPaysReceipt(User user, Long receiptId, OrderStatus status);
 
 
 }

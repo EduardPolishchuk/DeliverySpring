@@ -76,9 +76,9 @@
                     <div class="mb-3">
                     </div>
                     <div class="mb-3">
-                        <input type="hidden" class="form-control" id="exId-name" name="paidReceipt">
-                        <input type="hidden" class="form-control" id="price" name="price">
-                        <input type="hidden" class="form-control" id="orderId" name="orderId">
+                        <input type="hidden" class="form-control" id="exId-name" name="receiptID">
+<%--                        <input type="hidden" class="form-control" id="price" name="price">--%>
+<%--                        <input type="hidden" class="form-control" id="orderId" name="orderId">--%>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary"><fmt:message key="confirm"/></button>

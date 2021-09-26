@@ -11,6 +11,7 @@ import ua.training.delivery.repository.OrderRepository;
 import ua.training.delivery.repository.ReceiptRepository;
 import ua.training.delivery.service.OrderService;
 import ua.training.delivery.service.ReceiptService;
+import ua.training.delivery.service.UserService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -24,10 +25,14 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     private final OrderService orderService;
 
+    private final UserService userService;
+
     @Autowired
-    public ReceiptServiceImpl(ReceiptRepository receiptRepository, OrderService orderService) {
+    public ReceiptServiceImpl(ReceiptRepository receiptRepository,
+                              OrderService orderService, UserService userService) {
         this.receiptRepository = receiptRepository;
         this.orderService = orderService;
+        this.userService = userService;
     }
 
     @Override
@@ -63,8 +68,9 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     @Transactional
-    public boolean userPaysReceipt(User user, Receipt receipt) {
-        receiptRepository.userPaysReceipt(user,receipt, OrderStatus.PARCEL_DELIVERY);
+    public boolean userPaysReceipt(User user, Long receiptId) {
+        receiptRepository.userPaysReceipt(user,receiptId, OrderStatus.PARCEL_DELIVERY);
+        user.setBalance(userService.getUserBalance(user));
         return true;
     }
 
