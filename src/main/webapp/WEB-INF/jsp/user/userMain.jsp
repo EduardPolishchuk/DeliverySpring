@@ -41,24 +41,24 @@
                             <div class="col">
                                 <label class="form-label"><fmt:message key="length"/>, <fmt:message key="mm"/></label>
                                 <form:input class="form-control" path="parcel.length" type="number" min="1"
-                                            value="${parcel.length}"/>
+                                            value="${param.parcel.length}"/>
                             </div>
                             <div class="col">
                                 <label class="form-label"><fmt:message key="width"/>, <fmt:message key="mm"/></label>
                                 <form:input class="form-control" path="parcel.width" type="number" min="1"
-                                            value="${parcel.width}"/>
+                                            value="${param.parcel.width}"/>
 
                             </div>
                             <div class="col">
                                 <label class="form-label"><fmt:message key="height"/>, <fmt:message key="mm"/></label>
                                 <form:input class="form-control" path="parcel.height" type="number" min="1"
-                                            value="${parcel.height}"/>
+                                            value="${param.parcel.height}"/>
 
                             </div>
                             <div class="col">
                                 <label class="form-label"><fmt:message key="weight"/>, <fmt:message key="kg"/></label>
                                 <form:input class="form-control" path="parcel.weight" type="number" min="1"
-                                            value="${parcel.weight}"/>
+                                            value="${param.parcel.weight}"/>
                             </div>
                         </div>
                         <h5 class="display-7" style="align-content: center"><fmt:message key="route"/></h5>

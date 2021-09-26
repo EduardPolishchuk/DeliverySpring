@@ -1,6 +1,7 @@
 package ua.training.delivery.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ua.training.delivery.entity.Order;
@@ -19,5 +20,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 
     @Query("SELECT balance FROM User where id=?1")
-    BigDecimal getUserBalance(Long id);
+    BigDecimal getUserBalance(Long userId);
+
+    @Modifying
+    @Query("UPDATE  User u set u.balance=u.balance+?2 where u.id=?1")
+    void changeUserBalance(Long userId, BigDecimal amount);
 }

@@ -68,7 +68,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BigDecimal balanceReplenishment(BigDecimal amount, User user) {
-        return null;
+    @Transactional
+    public boolean balanceReplenishment(User user, BigDecimal amount) {
+        userRepository.changeUserBalance(user.getId(),amount);
+        user.setBalance(userRepository.getUserBalance(user.getId()));
+        return true;
     }
 }

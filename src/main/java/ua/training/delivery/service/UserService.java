@@ -16,5 +16,5 @@ public interface UserService {
     boolean update(User user);
     List<User> findAll();
     BigDecimal getUserBalance(User user);
-    BigDecimal balanceReplenishment(BigDecimal amount, User user);
+    boolean balanceReplenishment(User user,BigDecimal amount );
 }

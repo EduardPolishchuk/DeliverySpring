@@ -115,7 +115,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/Delivery/changeBalance" class="row g-3 needs-validation" novalidate>
+                <form method="post" action="${pageContext.request.contextPath}/user/change_balance" class="row g-3 needs-validation" novalidate>
                     <div class="mb-3">
                     </div>
                     <div class="mb-3">

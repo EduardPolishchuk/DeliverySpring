@@ -2,24 +2,17 @@ package ua.training.delivery.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.Parcel;
 import ua.training.delivery.entity.User;
-import ua.training.delivery.service.CityService;
-import ua.training.delivery.service.OrderService;
-import ua.training.delivery.service.ReceiptService;
-import ua.training.delivery.service.TariffService;
+import ua.training.delivery.service.*;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -34,13 +27,17 @@ public class UserController {
 
     private final TariffService tariffService;
 
+    private final UserService userService;
 
     @Autowired
-    public UserController(ReceiptService receiptService, CityService cityService, OrderService orderService, TariffService tariffService) {
+    public UserController(ReceiptService receiptService, CityService cityService,
+                          OrderService orderService, TariffService tariffService,
+                          UserService userService) {
         this.receiptService = receiptService;
         this.cityService = cityService;
         this.orderService = orderService;
         this.tariffService = tariffService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -66,21 +63,35 @@ public class UserController {
     }
 
     @GetMapping("/receipts")
-    public String receiptListPage(Model model) {
-        User user = (User) model.getAttribute("userProfile");
+    public String receiptListPage(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("userProfile");
         model.addAttribute("receiptList", receiptService.findUserReceipts(user, false));
         return "user/userReceipts";
     }
 
     @PostMapping
-    public String userOrderAction(@ModelAttribute("orderForm") Order orderFrom, Model model, HttpSession session) {
-        User user = (User) session.getAttribute("userProfile");
-        orderFrom.setUserSender(user);
-        orderFrom.setRequestDate(LocalDate.now());
-        System.out.println("==============================================================");
-        System.out.println(orderFrom);
-        System.out.println("==============================================================");
+    public String userOrderAction(@ModelAttribute("orderForm") Order orderFrom,
+                                  Model model, HttpSession session, @RequestParam String action) {
 
+        if ("makeOrder".equals(action)) {
+            User user = (User) session.getAttribute("userProfile");
+            orderFrom.setUserSender(user);
+            orderFrom.setRequestDate(LocalDate.now());
+            orderService.create(orderFrom);
+            return "success";
+        }
+
+
+        model.addAttribute("cityList", cityService.findAll());
+        model.addAttribute("tariff", tariffService.getTariff());
+        return "user/userMain";
+    }
+
+    @PostMapping("/change_balance")
+    public String changeBalance(HttpSession session, @RequestParam("amount") BigDecimal amount) {
+        User user = (User) session.getAttribute("userProfile");
+        userService.balanceReplenishment(user, amount);
         return "success";
+
     }
 }

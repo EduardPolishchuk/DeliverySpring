@@ -23,11 +23,11 @@ public class Order {
     @Column (name = "request_date")
     private LocalDate requestDate;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_sender")
     private User userSender;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "parcel_id")
     private Parcel parcel;
 
