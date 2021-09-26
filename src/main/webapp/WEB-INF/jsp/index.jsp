@@ -22,7 +22,7 @@
         <div class="col ">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <form:form id="form2" method="get" modelAttribute="orderForm"
+                    <form:form  id="form2" method="get" modelAttribute="orderForm"
                                action="${pageContext.request.contextPath}/calculate">
                         <h4 class="display-5 text-center" style="align-content: center"><fmt:message
                                 key="calculateTheCost"/></h4>

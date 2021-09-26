@@ -13,6 +13,7 @@ import ua.training.delivery.service.OrderService;
 import ua.training.delivery.service.ReceiptService;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,11 +22,13 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     private final ReceiptRepository receiptRepository;
 
-    @Autowired
-    public ReceiptServiceImpl(ReceiptRepository receiptRepository) {
-        this.receiptRepository = receiptRepository;
-    }
+    private final OrderService orderService;
 
+    @Autowired
+    public ReceiptServiceImpl(ReceiptRepository receiptRepository, OrderService orderService) {
+        this.receiptRepository = receiptRepository;
+        this.orderService = orderService;
+    }
 
     @Override
     public Optional<Receipt> findById(long id) {
@@ -33,8 +36,19 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    public Receipt create(Receipt receipt) {
-        return receiptRepository.save(receipt);
+    @Transactional
+    public boolean create(Long  orderID) {
+        Order order = orderService.findById(orderID).orElseThrow(IndexOutOfBoundsException::new);
+        Receipt receipt = Receipt.builder()
+                .order(order)
+                .paid(false)
+                .price(orderService.calculateOrderPrice(order))
+                .build();
+        receiptRepository.save(receipt);
+        order.setStatus(OrderStatus.WAITING_FOR_PAYMENT);
+        order.setReceivingDate(LocalDate.now().plusDays(2));
+        orderService.update(order);
+        return true;
     }
 
     @Override
@@ -50,7 +64,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     @Transactional
     public boolean userPaysReceipt(User user, Receipt receipt) {
-        receiptRepository.userPaysReceipt(user,receipt, OrderStatus.WAITING_FOR_PAYMENT);
+        receiptRepository.userPaysReceipt(user,receipt, OrderStatus.PARCEL_DELIVERY);
         return true;
     }
 

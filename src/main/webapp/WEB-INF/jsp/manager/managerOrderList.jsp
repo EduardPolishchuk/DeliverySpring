@@ -1,5 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="locale/resources"/>
@@ -132,7 +133,7 @@
                             <td>${order.requestDate}
                             </td>
                             <td>
-                                <form action="${pageContext.request.contextPath}/manager/managerOrderView">
+                                <form method="post" action="${pageContext.request.contextPath}/manager/send_receipt">
                                     <button name="order" value="${order.id}" type="submit"
                                             class="btn btn-sm btn-outline-secondary">
                                         <fmt:message key="details"/>
@@ -141,8 +142,8 @@
                             </td>
                             <td>
                                 <c:if test="${order.status eq 'WAITING_FOR_CONFIRM'}">
-                                    <form action="${pageContext.request.contextPath}/manager/managerCreateReceipt">
-                                        <button name="order" value="${order.id}" type="submit"
+                                    <form method="post"  action="${pageContext.request.contextPath}/manager/send_receipt">
+                                        <button name="orderID" value="${order.id}" type="submit"
                                                 class="btn btn-sm btn-outline-secondary">
                                             <fmt:message key="sendReceipt"/>
                                         </button>

@@ -11,7 +11,7 @@ public interface ReceiptService {
 
     Optional<Receipt> findById(long id);
 
-    Receipt create(Receipt receipt);
+    boolean create(Long orderID);
 
     Receipt update(Receipt receipt);
 

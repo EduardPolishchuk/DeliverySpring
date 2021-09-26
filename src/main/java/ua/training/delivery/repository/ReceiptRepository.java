@@ -22,4 +22,6 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
             "r.order.userSender.balance= r.order.userSender.balance-r.price, r.paid=1 " +
             "where r.order.userSender=?1 and r=?2")
     void  userPaysReceipt(User user, Receipt receipt, OrderStatus status);
+
+
 }

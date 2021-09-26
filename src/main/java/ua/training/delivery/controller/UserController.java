@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.Parcel;
+import ua.training.delivery.entity.Receipt;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.*;
 
@@ -70,7 +71,7 @@ public class UserController {
     }
 
     @PostMapping
-    public String userOrderAction(@ModelAttribute("orderForm") Order orderFrom,
+    public String userOrderAction(@ModelAttribute("order") Order orderFrom,
                                   Model model, HttpSession session, @RequestParam() String action) {
 
         if ("makeOrder".equals(action)) {
@@ -89,7 +90,7 @@ public class UserController {
 
     @PostMapping("/change_balance")
     public String changeBalance(HttpSession session, @RequestParam("amount") BigDecimal amount) {
-        if(amount.intValue() < 0){
+        if (amount.intValue() < 0) {
             return "error";
         }
         User user = (User) session.getAttribute("userProfile");
@@ -99,8 +100,9 @@ public class UserController {
 
 
     @PostMapping("/pay_receipt")
-    public String payReceipt(){
+    public String payReceipt(@ModelAttribute("receipt") Receipt receipt) {
 
+//        receiptService.userPaysReceipt()
         return "redirect:/success";
     }
 }
