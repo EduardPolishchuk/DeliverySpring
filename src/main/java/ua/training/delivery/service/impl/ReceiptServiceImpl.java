@@ -43,7 +43,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public List<Receipt> findUserReceipts(User user, boolean paid) {
-        return receiptRepository.findUserReceipts(user.getId(), paid);
+        return receiptRepository.findUserReceipts(user, paid);
     }
 
     @Override

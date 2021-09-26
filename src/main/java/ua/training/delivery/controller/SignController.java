@@ -44,7 +44,7 @@ public class SignController {
     }
 
     @PostMapping(value = "/up")
-    public String signUp(HttpServletRequest request, HttpSession session,  User user, Model model) {
+    public String signUp(HttpServletRequest request,   User user, Model model) {
         user.setRole(Role.USER);
 
         String password = user.getPassword();

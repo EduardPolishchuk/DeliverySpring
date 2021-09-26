@@ -90,13 +90,13 @@
                         </form>
                     </sec:authorize>
                     <div class="text-end">
-                        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                        <form  class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
                             <c:forEach var="item" items="${param}">
                                 <c:if test="${item.key != 'language'}">
                                     <input type="hidden" name="${item.key}" value="${item.value}">
                                 </c:if>
                             </c:forEach>
-                            <button type="submit" class="btn btn-outline-light " name="language" value="en">
+                            <button  type="submit" class="btn btn-outline-light " name="language" value="en">
                                 <strong><fmt:message key="en"/> </strong></button>
                             <button type="submit" class="btn btn-outline-light" name="language" value="uk">
                                 <strong><fmt:message key="ukr"/></strong></button>

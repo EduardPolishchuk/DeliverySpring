@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="locale/resources"/>
 <html>
@@ -17,7 +18,8 @@
             <div class="card shadow-sm">
                 <div class="card-body">
 
-                    <form id="form2" action="${pageContext.request.contextPath}/user/userMain">
+                    <form:form id="form2" method="post" modelAttribute="orderForm"
+                               action="${pageContext.request.contextPath}/user/">
                         <h4 class="display-6 text-center" style="align-content: center"><fmt:message
                                 key="makeOrder"/></h4>
                         <h5 class="display-7" style="align-content: center"><fmt:message key="sender"/></h5>
@@ -31,40 +33,32 @@
                                 <label class="form-label"><fmt:message key="lastName"/></label>
                                 <input type="number" min="1" class="form-control"
                                        placeholder="${userProfile.lastName}" disabled>
+<%--                                <form:hidden path="userSender" value="userProfile"/>--%>
                             </div>
                         </div>
                         <h5 class="display-7" style="align-content: center"><fmt:message key="parcelParams"/></h5>
                         <div class="row g-3 mb-3">
                             <div class="col">
-                                <label class="form-label"><fmt:message key="length"/> </label>
-                                <input name="length" value="${param.length}" type="number" min="1" class="form-control"
+                                <label class="form-label"><fmt:message key="length"/>, <fmt:message key="mm"/></label>
+                                <form:input class="form-control" path="parcel.length" type="number" min="1"
+                                            value="${parcel.length}"/>
+                            </div>
+                            <div class="col">
+                                <label class="form-label"><fmt:message key="width"/>, <fmt:message key="mm"/></label>
+                                <form:input class="form-control" path="parcel.width" type="number" min="1"
+                                            value="${parcel.width}"/>
 
-                                       placeholder="<fmt:message key="mm"/>" aria-label="First name" required>
                             </div>
                             <div class="col">
-                                <label class="form-label"><fmt:message key="width"/></label>
-                                <input name="width" value="${param.width}" type="number" min="1" class="form-control"
-                                       placeholder="<fmt:message key="mm"/>"
-                                       aria-label="Last name" required>
-                            </div>
-                            <div class="col">
-                                <label class="form-label"><fmt:message key="height"/></label>
-                                <input name="height" value="${param.height}" type="number" min="1" class="form-control"
-                                       placeholder="<fmt:message key="mm"/>"
-                                       aria-label="Last name" required>
-                            </div>
-                            <div class="col">
-                                <label class="form-label"><fmt:message key="weight"/></label>
-                                <input name="weight" value="${param.weight}" type="number" min="0,1"
-                                       class="form-control " placeholder="<fmt:message key="kg"/>"
-                                       aria-label="Last name" required>
-                            </div>
+                                <label class="form-label"><fmt:message key="height"/>, <fmt:message key="mm"/></label>
+                                <form:input class="form-control" path="parcel.height" type="number" min="1"
+                                            value="${parcel.height}"/>
 
+                            </div>
                             <div class="col">
-                                <label class="form-label"><fmt:message key="type"/></label>
-                                <input name="type" value="${param.type}" type="text" placeholder="<fmt:message key="other"/>"
-                                       class="form-control "
-                                >
+                                <label class="form-label"><fmt:message key="weight"/>, <fmt:message key="kg"/></label>
+                                <form:input class="form-control" path="parcel.weight" type="number" min="1"
+                                            value="${parcel.weight}"/>
                             </div>
                         </div>
                         <h5 class="display-7" style="align-content: center"><fmt:message key="route"/></h5>
@@ -74,7 +68,7 @@
                                 <select class="form-select hide-icon" name="cityFrom"
                                         aria-label="Default select example">
                                     <c:forEach var="city" items="${cityList}">
-                                        <option value="${city.id}" ${city.id == cityFrom ? 'selected':''}>${locale == 'uk'?
+                                        <option  value="${city.id}" ${city.id == orderForm.cityFrom.id ? 'selected':''}>${locale == 'uk'?
                                                 city.nameUk : city.name}</option>
                                     </c:forEach>
                                 </select>
@@ -83,14 +77,14 @@
                                 <label class="form-label"><fmt:message key="cityTo"/> </label>
                                 <select class="form-select" name="cityTo" aria-label="Default select example">
                                     <c:forEach var="city" items="${cityList}">
-                                        <option value="${city.id}" ${city.id == param.cityTo ? 'selected':''}>${locale == 'uk'?
-                                                city.nameUk : city.name}</option>
+                                        <option value="${city.id}" ${city.id == orderForm.cityTo.id ? 'selected':''}>
+                                                ${locale == 'uk'? city.nameUk : city.name}</option>
                                     </c:forEach>
                                 </select>
                             </div>
                         </div>
                         <hr>
-                    </form>
+                    </form:form>
                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                         <button form="form2" type="submit" name="action" value="calculate" class="btn btn-primary">
                             <fmt:message key="calculate"/></button>

@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.training.delivery.entity.Order;
+import ua.training.delivery.entity.Parcel;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.CityService;
 import ua.training.delivery.service.OrderService;
@@ -15,6 +18,7 @@ import ua.training.delivery.service.ReceiptService;
 import ua.training.delivery.service.TariffService;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +43,9 @@ public class UserController {
         this.tariffService = tariffService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public String mainPage(Model model) {
+        model.addAttribute("orderForm", Order.builder().parcel(new Parcel()).build());
         model.addAttribute("cityList", cityService.findAll());
         model.addAttribute("tariff", tariffService.getTariff());
         return "user/userMain";
@@ -54,19 +59,28 @@ public class UserController {
 
     @GetMapping("/orders")
     public String orderListPage(HttpSession session, Model model) {
-
         User user = (User) session.getAttribute("userProfile");
-        System.out.println(user);
         List<Order> list = orderService.findUserOrders(user);
-        System.out.println("LIST ================================>" + list);
         model.addAttribute("orderList", list);
         return "user/userOrders";
     }
 
     @GetMapping("/receipts")
     public String receiptListPage(Model model) {
-//        User user = (User) model.getAttribute("userProfile");
-//        model.addAttribute("receiptList", receiptService.findUserReceipts(user, false));
-        return "redirect:/user/orders";
+        User user = (User) model.getAttribute("userProfile");
+        model.addAttribute("receiptList", receiptService.findUserReceipts(user, false));
+        return "user/userReceipts";
+    }
+
+    @PostMapping
+    public String userOrderAction(@ModelAttribute("orderForm") Order orderFrom, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("userProfile");
+        orderFrom.setUserSender(user);
+        orderFrom.setRequestDate(LocalDate.now());
+        System.out.println("==============================================================");
+        System.out.println(orderFrom);
+        System.out.println("==============================================================");
+
+        return "success";
     }
 }
