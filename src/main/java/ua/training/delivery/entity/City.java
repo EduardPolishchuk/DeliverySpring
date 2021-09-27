@@ -3,7 +3,7 @@ package ua.training.delivery.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 
 @Builder
 @Data
@@ -17,17 +17,25 @@ public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
 //    @Pattern(regexp = "^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\\d.-]{1,19}$")
-
     private Long id;
+
+//    @Pattern(regexp = "^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\\\\d.-]{1,19}$")
     @Column(name = "name")
     private String name;
 
+
+    @NotEmpty
     @Column(name = "name_uk")
     private String nameUk;
 
+//    @Min(value = -90)
+//    @Max(value = 90)
     @Column(name = "longitude")
     private float longitude;
 
+
+//    @Min(value = -90)
+//    @Max(value = 90)
     @Column(name = "latitude")
     private float latitude;
 

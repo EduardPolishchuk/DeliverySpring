@@ -115,39 +115,39 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="client" items="${page.content}">
+                        <c:forEach var="order" items="${page.content}">
                         <tr>
                             <td>${counter}</td>
                             <c:set var="counter" value="${counter + 1}"/>
-                            <td>${client.requestDate}
+                            <td>${order.requestDate}
                             </td>
                             <td>
-                                <form method="post" action="${pageContext.request.contextPath}/manager/send_receipt">
-                                    <button name="order" value="${client.id}" type="submit"
+                                <form method="get" action="${pageContext.request.contextPath}/manager/order_details">
+                                    <button name="orderID" value="${order.id}" type="submit"
                                             class="btn btn-sm btn-outline-secondary">
                                         <fmt:message key="details"/>
                                     </button>
                                 </form>
                             </td>
                             <td>
-                                <c:if test="${client.status eq 'WAITING_FOR_CONFIRM'}">
+                                <c:if test="${order.status eq 'WAITING_FOR_CONFIRM'}">
                                     <form method="post"
                                           action="${pageContext.request.contextPath}/manager/send_receipt">
-                                        <button name="orderID" value="${client.id}" type="submit"
+                                        <button name="orderID" value="${order.id}" type="submit"
                                                 class="btn btn-sm btn-outline-secondary">
                                             <fmt:message key="sendReceipt"/>
                                         </button>
                                     </form>
                                 </c:if>
                             </td>
-                            <td>${locale == 'uk' ? client.cityFrom.nameUk : client.cityFrom.name}</td>
-                            <td>${locale == 'uk' ? client.cityTo.nameUk : client.cityTo.name}</td>
-                            <td><fmt:message key="${client.status}"/></td>
-                            <td>${client.parcel.type}</td>
-                            <td>${client.parcel.length} <fmt:message key="mm"/></td>
-                            <td>${client.parcel.width} <fmt:message key="mm"/></td>
-                            <td>${client.parcel.height} <fmt:message key="mm"/></td>
-                            <td>${client.parcel.weight} <fmt:message key="kg"/></td>
+                            <td>${locale == 'uk' ? order.cityFrom.nameUk : order.cityFrom.name}</td>
+                            <td>${locale == 'uk' ? order.cityTo.nameUk : order.cityTo.name}</td>
+                            <td><fmt:message key="${order.status}"/></td>
+                            <td>${order.parcel.type}</td>
+                            <td>${order.parcel.length} <fmt:message key="mm"/></td>
+                            <td>${order.parcel.width} <fmt:message key="mm"/></td>
+                            <td>${order.parcel.height} <fmt:message key="mm"/></td>
+                            <td>${order.parcel.weight} <fmt:message key="kg"/></td>
                         </tr>
                         </c:forEach>
                 </div>

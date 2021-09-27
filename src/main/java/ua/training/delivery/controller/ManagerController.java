@@ -1,6 +1,7 @@
 package ua.training.delivery.controller;
 
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,15 +9,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ua.training.delivery.entity.City;
 import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.OrderStatus;
+import ua.training.delivery.entity.Role;
 import ua.training.delivery.service.OrderService;
 import ua.training.delivery.service.ReceiptService;
 import ua.training.delivery.service.TariffService;
 import ua.training.delivery.service.UserService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -66,7 +72,7 @@ public class ManagerController {
 
     @GetMapping("/client_list")
     public String clientList(Model model) {
-        model.addAttribute("clientList", userService.findAll());
+        model.addAttribute("clientList", userService.findAllByRole(Role.USER));
         return "manager/managerClientList";
     }
 
@@ -77,14 +83,33 @@ public class ManagerController {
     }
 
     @GetMapping("/add_city")
-    public String addCity(Model model) {
-
+    public String addCityGet(Model model) {
+        model.addAttribute("cityForm", new City());
         return "manager/managerAddCity";
+    }
+
+    @PostMapping("/add_city")
+    public String addCityPost(@ModelAttribute @Valid City cityForm, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+//todo City_add
+            return "manager/managerAddCity";
+        }
+
+        return "redirect:/success";
     }
 
     @PostMapping("/send_receipt")
     public String sendReceipt(@RequestParam(name = "orderID") Long orderID) {
         receiptService.create(orderID);
         return "redirect:/manager/order_list";
+    }
+
+    @GetMapping("/order_details")
+    public String orderDetails(Model model, @RequestParam Long orderID) {
+        Order order = orderService.findById(orderID).orElseThrow(EntityNotFoundException::new);
+        model.addAttribute("order", order);
+        model.addAttribute("price", orderService.calculateOrderPrice(order));
+        return "manager/managerOrderDetails";
     }
 }

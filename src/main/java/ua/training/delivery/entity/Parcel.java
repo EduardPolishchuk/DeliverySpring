@@ -20,28 +20,29 @@ public class Parcel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message =  "NUUUUUUUUUUUUUUUUUL")
-    @Email(message = "=ne=")
-    @Column(name = "type")
+
     private String type;
 
 
-    @Min(value = 10, message = "MORE THEN 1! length")
+    @Min(value = 1, message = "MORE THEN 1! length")
+    @Max(value = 1000)
     @Column(name = "length")
     private float length;
 
 
-    @Min(value = 10, message = "MORE THEN 1! width")
+    @Min(value = 1, message = "MORE THEN 1! width")
+    @Max(value = 1000)
     @Column(name = "width")
     private float width;
 
 
-    @Max(value = 0, message = "MORE THEN 1! width")
+    @Max(value = 1, message = "MORE THEN 1! width")
+    @Max(value = 2000,message = "")
     @Column(name = "height")
     private float height;
 
 
-    @Negative(message =  "POSITIVE")
+    @Max(value = 200)
     @Column(name = "weight")
     private float weight;
 

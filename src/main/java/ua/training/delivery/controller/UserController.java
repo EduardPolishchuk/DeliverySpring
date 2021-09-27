@@ -51,7 +51,7 @@ public class UserController {
 
     @GetMapping
     public String mainPage(Model model) {
-        model.addAttribute("orderForm", Order.builder().build());
+        model.addAttribute("orderForm", new Order());
         model.addAttribute("cityList", cityService.findAll());
         model.addAttribute("tariff", tariffService.getTariff());
         return "user/userMain";
@@ -99,7 +99,7 @@ public class UserController {
     public String userOrderAction(@ModelAttribute("orderForm") @Valid Order orderFrom, BindingResult bindingResult,
                                   Model model, HttpSession session, @RequestParam() String action) {
 
-        if (bindingResult.hasErrors()) {
+//        if (bindingResult.hasErrors()) {
 //            System.out.println("============================================");
 //            System.out.println("============================================");
 //           List<FieldError> list = bindingResult.getFieldErrors();
@@ -110,16 +110,19 @@ public class UserController {
 //                System.out.println("CODE==>"+  f.getCode());
 //                System.out.println("CODE==>"+  f.getRejectedValue());
 //            }
-            return "user/userMain";
-        }
+//            return "user/userMain";
+//        }
 
         if ("makeOrder".equals(action)) {
             User user = (User) session.getAttribute("userProfile");
             orderFrom.setUserSender(user);
             orderFrom.setStatus(OrderStatus.WAITING_FOR_CONFIRM);
             orderFrom.setRequestDate(LocalDate.now());
+            if(orderFrom.getParcel().getType() == null || orderFrom.getParcel().getType().isEmpty()){
+                orderFrom.getParcel().setType("Other");
+            }
             orderService.create(orderFrom);
-            return "success";
+            return "redirect:/success";
         }
 
         model.addAttribute("calculatedValue", orderService.calculateOrderPrice(orderFrom));

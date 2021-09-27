@@ -1,5 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="locale/resources"/>
@@ -16,16 +17,17 @@
         <div class="col ">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <form id="form2" action="${pageContext.request.contextPath}/manager/managerAddCity">
+                    <form:form method="post" modelAttribute="cityForm" id="form2"
+                               action="${pageContext.request.contextPath}/manager/add_city">
                         <hr>
                         <div class="row g-3 mb-3">
                             <div class="col w-75">
                                 <label class="form-label"><fmt:message key="name"/> </label>
-                                <input type="text" class="form-control" name="name" value="${param.name}" required>
+                                <input type="text" class="form-control" name="name" value="${param.name}" >
                             </div>
                             <div class="col w-75">
                                 <label class="form-label"><fmt:message key="nameUk"/> </label>
-                                <input type="text" class="form-control" name="nameUk" value="${param.nameUk}" required>
+                                <input type="text" class="form-control" name="nameUk" value="${param.nameUk}" >
                             </div>
 
                         </div>
@@ -33,13 +35,13 @@
                             <div class="col">
                                 <label class="form-label"><fmt:message key="latitude"/> </label>
                                 <div class="input-group mb-3 w-75">
-                                    <input type="number" class="form-control" required value="${param.latDeg}" max="90"
+                                    <input type="number" class="form-control"  value="${param.latDeg}" max="90"
                                            min="0" step="0.1" name="latDeg" >
                                     <span class="input-group-text">°</span>
-                                    <input type="number" class="form-control" required value="${param.latMin}" max="60"
+                                    <input type="number" class="form-control"  value="${param.latMin}" max="60"
                                            min="0" step="0.1" name="latMin" >
                                     <span class="input-group-text">′</span>
-                                    <input type="number" class="form-control" required value="${param.latSec}" max="60"
+                                    <input type="number" class="form-control"  value="${param.latSec}" max="60"
                                            min="0" step="0.1" name="latSec" >
                                     <span class="input-group-text">″</span>
                                 </div>
@@ -47,13 +49,13 @@
                             <div class="col">
                                 <label class="form-label"><fmt:message key="longitude"/> </label>
                                 <div class="input-group mb-3 w-75">
-                                    <input type="number" class="form-control" required value="${param.lngDeg}" max="90"
+                                    <input type="number" class="form-control"  value="${param.lngDeg}" max="90"
                                            min="0" step="0.1" name="lngDeg" aria-label="Username">
                                     <span class="input-group-text">°</span>
-                                    <input type="number" class="form-control" required value="${param.lngMin}" max="60"
+                                    <input type="number" class="form-control"  value="${param.lngMin}" max="60"
                                            min="0" step="0.1" name="lngMin" aria-label="Server">
                                     <span class="input-group-text">′</span>
-                                    <input type="number" class="form-control" required value="${param.lngSec}" max="60"
+                                    <input type="number" class="form-control"  value="${param.lngSec}" max="60"
                                            min="0" step="0.1" name="lngSec" aria-label="Server">
                                     <span class="input-group-text">″</span>
                                 </div>
@@ -62,7 +64,7 @@
                                 <div class="col">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="latParam"
-                                               id="inlineRadio1" value="north" required
+                                               id="inlineRadio1" value="north"
                                         ${param.latParam == 'north' ? 'checked' : ''}
                                         >
                                         <label class="form-check-label" for="inlineRadio1"><fmt:message key="latNorth"/></label>
@@ -79,7 +81,7 @@
                                 <div class="col">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="lngParam"
-                                               id="inlineRadio3" value="east" required>
+                                               id="inlineRadio3" value="east" >
                                         <label class="form-check-label" for="inlineRadio3"><fmt:message key="lngEast"/> </label>
                                     </div>
                                     <div class="form-check form-check-inline">
@@ -93,7 +95,7 @@
 
                             <hr>
                         </div>
-                    </form>
+                    </form:form>
                     <button class="btn btn-primary" form="form2" type="submit" name="action" value="add">
                         <fmt:message key="submit"/>
                     </button>

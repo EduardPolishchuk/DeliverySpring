@@ -31,24 +31,24 @@
                         <div class="row g-3 mb-3">
                             <div class="col">
                                 <label class="form-label"><fmt:message key="length"/>, <fmt:message key="mm"/></label>
-                                <form:input class="form-control" path="parcel.length" type="number" min="1"
+                                <form:input class="form-control" path="parcel.length" type="number" min="1" max="1000"
                                             value="${parcel.length}"/>
                             </div>
                             <div class="col">
                                 <label class="form-label"><fmt:message key="width"/>, <fmt:message key="mm"/></label>
-                                <form:input class="form-control" path="parcel.width" type="number" min="1"
+                                <form:input class="form-control" path="parcel.width" type="number" min="1" max="1000"
                                             value="${parcel.width}"/>
 
                             </div>
                             <div class="col">
                                 <label class="form-label"><fmt:message key="height"/>, <fmt:message key="mm"/></label>
-                                <form:input class="form-control" path="parcel.height" type="number" min="1"
+                                <form:input class="form-control" path="parcel.height" type="number" min="1" max="2000"
                                             value="${parcel.height}"/>
 
                             </div>
                             <div class="col">
                                 <label class="form-label"><fmt:message key="weight"/>, <fmt:message key="kg"/></label>
-                                <form:input class="form-control" path="parcel.weight" type="number" min="1"
+                                <form:input class="form-control" path="parcel.weight" type="number" min="1" max="200"
                                             value="${parcel.weight}"/>
                             </div>
                         </div>

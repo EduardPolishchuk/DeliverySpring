@@ -1,6 +1,7 @@
 package ua.training.delivery.service;
 
 
+import ua.training.delivery.entity.Role;
 import ua.training.delivery.entity.User;
 
 import java.math.BigDecimal;
@@ -9,12 +10,12 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Optional<User> findIfValid(String login, String password);
     Optional<User> findByLogin(String login);
-    Optional<User> findById(long id);
+    Optional<User> findById(Long id);
     boolean create (User user);
     boolean update(User user);
     List<User> findAll();
+    List<User> findAllByRole(Role role);
     BigDecimal getUserBalance(User user);
     boolean balanceReplenishment(User user,BigDecimal amount );
 }

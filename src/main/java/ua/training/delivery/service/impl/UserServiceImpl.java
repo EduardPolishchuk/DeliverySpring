@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.OrderStatus;
+import ua.training.delivery.entity.Role;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.repository.OrderRepository;
 import ua.training.delivery.repository.UserRepository;
@@ -27,17 +28,12 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Optional<User> findIfValid(String login, String password) {
-        return Optional.empty();
-    }
-
-    @Override
     public Optional<User> findByLogin(String login) {
         return userRepository.findByLogin(login);
     }
 
     @Override
-    public Optional<User> findById(long id) {
+    public Optional<User> findById(Long id) {
         return Optional.empty();
     }
 
@@ -60,6 +56,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> findAllByRole(Role role) {
+        return userRepository.findAllByRole(role);
     }
 
     @Override

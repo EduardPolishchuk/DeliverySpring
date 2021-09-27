@@ -115,21 +115,21 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="client" items="${page.content}">
+                        <c:forEach var="order" items="${page.content}">
                         <tr>
                             <td>${counter}</td>
                             <c:set var="counter" value="${counter + 1}"/>
-                            <td>${client.requestDate}
+                            <td>${order.requestDate}
                             </td>
-                            <td>${client.receivingDate}</td>
-                            <td>${locale == 'uk' ? client.cityFrom.nameUk : client.cityFrom.name}</td>
-                            <td>${locale == 'uk' ? client.cityTo.nameUk : client.cityTo.name}</td>
-                            <td><fmt:message key="${client.status}"/></td>
-                            <td>${client.parcel.type}</td>
-                            <td>${client.parcel.length} <fmt:message key="mm"/></td>
-                            <td>${client.parcel.width} <fmt:message key="mm"/></td>
-                            <td>${client.parcel.height} <fmt:message key="mm"/></td>
-                            <td>${client.parcel.weight} <fmt:message key="kg"/></td>
+                            <td>${order.receivingDate}</td>
+                            <td>${locale == 'uk' ? order.cityFrom.nameUk : order.cityFrom.name}</td>
+                            <td>${locale == 'uk' ? order.cityTo.nameUk : order.cityTo.name}</td>
+                            <td><fmt:message key="${order.status}"/></td>
+                            <td>${order.parcel.type}</td>
+                            <td>${order.parcel.length} <fmt:message key="mm"/></td>
+                            <td>${order.parcel.width} <fmt:message key="mm"/></td>
+                            <td>${order.parcel.height} <fmt:message key="mm"/></td>
+                            <td>${order.parcel.weight} <fmt:message key="kg"/></td>
                         </tr>
                         </c:forEach>
                 </div>

@@ -33,32 +33,37 @@
                                 <label class="form-label"><fmt:message key="lastName"/></label>
                                 <input type="number" min="1" class="form-control"
                                        placeholder="${userProfile.lastName}" disabled>
-<%--                                <form:hidden path="userSender" value="userProfile"/>--%>
                             </div>
                         </div>
                         <h5 class="display-7" style="align-content: center"><fmt:message key="parcelParams"/></h5>
                         <div class="row g-3 mb-3">
                             <div class="col">
                                 <label class="form-label"><fmt:message key="length"/>, <fmt:message key="mm"/></label>
-                                <form:input class="form-control" path="parcel.length" type="number" min="1"
-                                            value="${param.parcel.length}"/>
+                                <form:input class="form-control" path="parcel.length" type="number" min="1" max="1000"
+                                            value="${parcel.length}"/>
                             </div>
                             <div class="col">
                                 <label class="form-label"><fmt:message key="width"/>, <fmt:message key="mm"/></label>
-                                <form:input class="form-control" path="parcel.width" type="number" min="1"
-                                            value="${param.parcel.width}"/>
+                                <form:input class="form-control" path="parcel.width" type="number" min="1" max="1000"
+                                            value="${parcel.width}"/>
 
                             </div>
                             <div class="col">
                                 <label class="form-label"><fmt:message key="height"/>, <fmt:message key="mm"/></label>
-                                <form:input class="form-control" path="parcel.height" type="number" min="1"
-                                            value="${param.parcel.height}"/>
+                                <form:input class="form-control" path="parcel.height" type="number" min="1" max="2000"
+                                            value="${parcel.height}"/>
 
                             </div>
                             <div class="col">
                                 <label class="form-label"><fmt:message key="weight"/>, <fmt:message key="kg"/></label>
-                                <form:input class="form-control" path="parcel.weight" type="number" min="1"
-                                            value="${param.parcel.weight}"/>
+                                <form:input class="form-control" path="parcel.weight" type="number" min="1" max="200"
+                                            value="${parcel.weight}"/>
+                            </div>
+                            <div class="col">
+                                <label class="form-label"><fmt:message key="type"/></label>
+                                <input name="type" value="${param.type}" type="text"
+                                       placeholder="<fmt:message key="other"/>"
+                                       class="form-control ">
                             </div>
                         </div>
                         <h5 class="display-7" style="align-content: center"><fmt:message key="route"/></h5>
