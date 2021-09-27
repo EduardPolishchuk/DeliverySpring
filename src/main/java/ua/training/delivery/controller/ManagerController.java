@@ -16,6 +16,7 @@ import ua.training.delivery.service.ReceiptService;
 import ua.training.delivery.service.TariffService;
 import ua.training.delivery.service.UserService;
 
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
@@ -40,17 +41,22 @@ public class ManagerController {
     }
 
     @GetMapping("/order_list")
-    public String orderListPage( Model model, @RequestParam(defaultValue = "id") String sortBy,
+    public String orderListPage(HttpSession session, Model model, @RequestParam(defaultValue = "id") String sortBy,
                                 @RequestParam Optional<String> status,
                                 @RequestParam("page") Optional<Integer> pageNum) {
 
         Page<Order> page;
         Sort.Direction direction = sortBy.contains("Desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        if ((sortBy.equals("cityTo.name") || sortBy.equals("cityFrom.name"))) {
+            String locale = (String) session.getAttribute("locale");
+            sortBy = "uk".equals(locale) ? sortBy.concat("Uk") : sortBy;
+        }
         Pageable pageable = PageRequest.of(pageNum.orElse(0), 4,
-                Sort.by(direction,sortBy.replace("Desc","")));
-        if(status.isPresent() && !status.get().isEmpty()){
+                Sort.by(direction, sortBy.replace("Desc", "")));
+
+        if (status.isPresent() && !status.get().isEmpty()) {
             page = orderService.findOrdersWithStatus(pageable, OrderStatus.valueOf(status.get()));
-        }else {
+        } else {
             page = orderService.findAll(pageable);
         }
         model.addAttribute("page", page);
@@ -60,14 +66,12 @@ public class ManagerController {
 
     @GetMapping("/client_list")
     public String clientList(Model model) {
-
         model.addAttribute("clientList", userService.findAll());
         return "manager/managerClientList";
     }
 
     @GetMapping("/tariff")
     public String tariffView(Model model) {
-
         model.addAttribute("tariff", tariffService.getTariff());
         return "manager/managerChangeTariff";
     }

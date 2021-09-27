@@ -69,6 +69,10 @@ public class UserController {
 
         User user = (User) session.getAttribute("userProfile");
         Page<Order> page;
+        if ((sortBy.equals("cityTo.name") || sortBy.equals("cityFrom.name"))) {
+            String locale = (String) session.getAttribute("locale");
+            sortBy = "uk".equals(locale) ? sortBy.concat("Uk") : sortBy;
+        }
         Sort.Direction direction = sortBy.contains("Desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(pageNum.orElse(0), 4,
                 Sort.by(direction,sortBy.replace("Desc","")));

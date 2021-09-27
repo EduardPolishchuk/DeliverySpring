@@ -24,4 +24,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("UPDATE  User u set u.balance=u.balance+?2 where u.id=?1")
     void changeUserBalance(Long userId, BigDecimal amount);
+
+
 }

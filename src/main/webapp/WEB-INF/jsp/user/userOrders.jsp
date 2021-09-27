@@ -99,10 +99,10 @@
                                     href="?sortBy=${param.sortBy == 'receivingDate'? 'receivingDateDesc':'receivingDate' }&status=${param.status}"
                                     style="color: black"><fmt:message key="receivingDate"/></a></th>
                             <th scope="col"><a
-                                    href="?sortBy=${param.sortBy == 'cityFrom'? 'cityFromDesc':'cityFrom' }&status=${param.status}"
+                                    href="?sortBy=${param.sortBy == 'cityFrom.name'? 'cityFrom.nameDesc':'cityFrom.name' }&status=${param.status}"
                                     style="color: black"><fmt:message key="cityFrom"/></a></th>
                             <th scope="col"><a
-                                    href="?sortBy=${param.sortBy == 'cityTo'? 'cityToDesc':'cityTo' }&status=${param.status}"
+                                    href="?sortBy=${param.sortBy == 'cityTo.name'? 'cityTo.nameDesc':'cityTo.name' }&status=${param.status}"
                                     style="color: black"><fmt:message key="cityTo"/></a></th>
                             <th scope="col"><fmt:message key="status"/></th>
                             <th scope="col"><a
@@ -115,21 +115,21 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="order" items="${page.content}">
+                        <c:forEach var="client" items="${page.content}">
                         <tr>
                             <td>${counter}</td>
                             <c:set var="counter" value="${counter + 1}"/>
-                            <td>${order.requestDate}
+                            <td>${client.requestDate}
                             </td>
-                            <td>${order.receivingDate}</td>
-                            <td>${locale == 'uk' ? order.cityFrom.nameUk : order.cityFrom.name}</td>
-                            <td>${locale == 'uk' ? order.cityTo.nameUk : order.cityTo.name}</td>
-                            <td><fmt:message key="${order.status}"/></td>
-                            <td>${order.parcel.type}</td>
-                            <td>${order.parcel.length} <fmt:message key="mm"/></td>
-                            <td>${order.parcel.width} <fmt:message key="mm"/></td>
-                            <td>${order.parcel.height} <fmt:message key="mm"/></td>
-                            <td>${order.parcel.weight} <fmt:message key="kg"/></td>
+                            <td>${client.receivingDate}</td>
+                            <td>${locale == 'uk' ? client.cityFrom.nameUk : client.cityFrom.name}</td>
+                            <td>${locale == 'uk' ? client.cityTo.nameUk : client.cityTo.name}</td>
+                            <td><fmt:message key="${client.status}"/></td>
+                            <td>${client.parcel.type}</td>
+                            <td>${client.parcel.length} <fmt:message key="mm"/></td>
+                            <td>${client.parcel.width} <fmt:message key="mm"/></td>
+                            <td>${client.parcel.height} <fmt:message key="mm"/></td>
+                            <td>${client.parcel.weight} <fmt:message key="kg"/></td>
                         </tr>
                         </c:forEach>
                 </div>

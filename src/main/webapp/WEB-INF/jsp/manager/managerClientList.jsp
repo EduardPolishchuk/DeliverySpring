@@ -30,14 +30,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="order" items="${userList}">
+                        <c:forEach var="client" items="${clientList}">
                         <tr>
                      <td>${counter}</td>
                             <c:set var="counter" value="${counter + 1}"/>
-                            <td><strong>${order.login}</strong></td>
-                            <td>${order.email}</td>
-                            <td>${order.firstName}</td>
-                            <td>${order.lastName}</td>
+                            <td><strong>${client.login}</strong></td>
+                            <td>${client.email}</td>
+                            <td>${client.firstName}</td>
+                            <td>${client.lastName}</td>
                         </tr>
                         </c:forEach>
                 </div>

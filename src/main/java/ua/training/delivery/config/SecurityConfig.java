@@ -34,7 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http
                 .csrf().disable()
                 .authorizeRequests()
@@ -50,13 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-//                .loginProcessingUrl("/login/in")
-//                .failureUrl("/error")
                 .usernameParameter("login")
                 .passwordParameter("password")
-//                .successHandler(successHandler())
                 .permitAll()
-//                .successForwardUrl("")
+                .defaultSuccessUrl("/")
                 .and()
                 .logout()
                 .permitAll()
@@ -71,13 +67,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
-//    @Bean
-//    public SavedRequestAwareAuthenticationSuccessHandler successHandler() {
-//        SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
-//        successHandler.setTargetUrlParameter("/succeslogin");
-//        return successHandler;
-//    }
-
-
 }
