@@ -2,7 +2,6 @@ package ua.training.delivery.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.training.delivery.entity.*;
@@ -12,7 +11,6 @@ import ua.training.delivery.service.OrderService;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -44,8 +42,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findAll() {
-        return orderRepository.findAll();
+    public Page<Order> findAll(Pageable pageable) {
+        return orderRepository.findAll(pageable);
     }
 
     @Override
@@ -60,8 +58,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findOrdersWithStatus(OrderStatus status) {
-        return orderRepository.findOrdersWithStatus(status.toString());
+    public Page<Order> findOrdersWithStatus(Pageable pageable, OrderStatus status) {
+        return orderRepository.findAllByStatus(status, pageable);
     }
 
     @Override

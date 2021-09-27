@@ -2,16 +2,21 @@ package ua.training.delivery.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.training.delivery.entity.Order;
+import ua.training.delivery.entity.OrderStatus;
 import ua.training.delivery.service.OrderService;
 import ua.training.delivery.service.ReceiptService;
 import ua.training.delivery.service.TariffService;
 import ua.training.delivery.service.UserService;
 
-import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/manager")
@@ -35,9 +40,21 @@ public class ManagerController {
     }
 
     @GetMapping("/order_list")
-    public String orderListPage(Model model) {
-        model.addAttribute("order", new Order());
-        model.addAttribute("orderList", orderService.findAll());
+    public String orderListPage( Model model, @RequestParam(defaultValue = "id") String sortBy,
+                                @RequestParam Optional<String> status,
+                                @RequestParam("page") Optional<Integer> pageNum) {
+
+        Page<Order> page;
+        Sort.Direction direction = sortBy.contains("Desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(pageNum.orElse(0), 4,
+                Sort.by(direction,sortBy.replace("Desc","")));
+        if(status.isPresent() && !status.get().isEmpty()){
+            page = orderService.findOrdersWithStatus(pageable, OrderStatus.valueOf(status.get()));
+        }else {
+            page = orderService.findAll(pageable);
+        }
+        model.addAttribute("page", page);
+        model.addAttribute("orderStatuses", OrderStatus.values());
         return "manager/managerOrderList";
     }
 

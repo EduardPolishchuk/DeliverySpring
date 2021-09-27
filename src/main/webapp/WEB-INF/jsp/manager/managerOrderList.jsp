@@ -19,35 +19,23 @@
         <h5 class="display-8 text-center" style="color: #000102"><fmt:message key="status"/></h5>
         <form>
             <div class="btn-group justify-content-center" role="group">
-                <input type="submit" class="btn-check active" name="status" value="${param.status eq 1? '': 1}"
-                       id="btnradio1"
-                       autocomplete="off">
-                <label class="btn btn-primary ${param.status == '1'? 'active':''}" for="btnradio1"><fmt:message
-                        key="WAITING_FOR_CONFIRM"/></label>
-
-                <input type="submit" class="btn-check active" name="status" value="${param.status eq 2? '': 2}"
-                       id="btnradio2"
-                       autocomplete="off">
-                <label class="btn btn-primary ${param.status == '2'? 'active':''}" for="btnradio2"><fmt:message
-                        key="WAITING_FOR_PAYMENT"/></label>
-
-                <input type="submit" class="btn-check" name="status" value="${param.status eq 3? '': 3}"
-                       id="btnradio3" autocomplete="off">
-                <label class="btn btn-primary ${param.status == '3'? 'active':''}" for="btnradio3"><fmt:message
-                        key="PARCEL_DELIVERY"/> </label>
-
-                <input type="submit" class="btn-check" name="status" value="${param.status eq 4? '': 4}"
-                       id="btnradio4" autocomplete="off">
-                <label class="btn btn-primary ${param.status == '4'? 'active':''}" for="btnradio4"><fmt:message
-                        key="DELIVERED"/></label>
+                <c:forEach var="statusVar" items="${orderStatuses}">
+                    <input type="submit" class="btn-check active" name="status"
+                           value="${param.status eq statusVar? '': statusVar}"
+                           id="${statusVar}"
+                           autocomplete="off">
+                    <label class="btn btn-primary ${param.status == statusVar? 'active':''}"
+                           for="${statusVar}"><fmt:message
+                            key="${statusVar}"/></label>
+                </c:forEach>
             </div>
         </form>
-        <c:if test="${noOfPages > 1}">
+        <c:if test="${page.totalPages > 1}">
             <div>
                 <nav aria-label="...">
                     <ul class="pagination justify-content-center">
                         <c:choose>
-                            <c:when test="${currentPage <= 1}">
+                            <c:when test="${page.number <= 0}">
                                 <li class="page-item disabled">
                                     <span class="page-link"><fmt:message key="previous"/></span>
                                 </li>
@@ -55,27 +43,28 @@
                             <c:otherwise>
                                 <li class="page-item">
                                     <a class="page-link"
-                                       href="?page=${currentPage - 1}&sortBy=${sortBy}&status=${param.status}"><fmt:message
+                                       href="?page=${page.number - 1}&sortBy=${param.sortBy}&status=${param.status}"><fmt:message
                                             key="previous"/></a>
                                 </li>
                             </c:otherwise>
                         </c:choose>
-                        <c:forEach begin="1" end="${noOfPages}" var="i">
+                        <c:forEach begin="1" end="${page.totalPages }" var="i">
                             <c:choose>
-                                <c:when test="${currentPage eq i}">
+                                <c:when test="${page.number  eq i - 1}">
                                     <li class="page-item active" aria-current="page">
                                         <span class="page-link">${i}</span>
                                     </li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li class="page-item"><a class="page-link"
-                                                             href="?page=${i}&sortBy=${sortBy}&status=${param.status}">${i}</a>
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="?page=${i - 1}&sortBy=${param.sortBy}&status=${param.status}">${i}</a>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
                         <c:choose>
-                            <c:when test="${currentPage >= noOfPages}">
+                            <c:when test="${page.number >= page.totalPages-1}">
                                 <li class="page-item disabled">
                                     <span class="page-link"><fmt:message key="next"/></span>
                                 </li>
@@ -83,7 +72,7 @@
                             <c:otherwise>
                                 <li class="page-item">
                                     <a class="page-link"
-                                       href="?page=${currentPage + 1}&sortBy=${sortBy}&status=${param.status}"><fmt:message
+                                       href="?page=${page.number + 1}&sortBy=${param.sortBy}&status=${param.status}"><fmt:message
                                             key="next"/></a>
                                 </li>
                             </c:otherwise>
@@ -100,7 +89,7 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <table class="table">
-                        <c:set var="counter" value="${(currentPage - 1) * perPage + 1}"/>
+                        <c:set var="counter" value="${(page.number )*page.size + 1}"/>
                         <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -117,7 +106,7 @@
                                     style="color: black"><fmt:message key="cityTo"/></a></th>
                             <th scope="col"><fmt:message key="status"/></th>
                             <th scope="col"><a
-                                    href="?sortBy=${param.sortBy == 'type'? 'typeDesc':'type' }&status=${param.status}"
+                                    href="?sortBy=${param.sortBy == 'parcel.type'? 'parcel.typeDesc':'parcel.type' }&status=${param.status}"
                                     style="color: black"><fmt:message key="type"/></a></th>
                             <th scope="col"><fmt:message key="length"/></th>
                             <th scope="col"><fmt:message key="width"/></th>
@@ -126,7 +115,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="order" items="${orderList}">
+                        <c:forEach var="order" items="${page.content}">
                         <tr>
                             <td>${counter}</td>
                             <c:set var="counter" value="${counter + 1}"/>
@@ -142,7 +131,8 @@
                             </td>
                             <td>
                                 <c:if test="${order.status eq 'WAITING_FOR_CONFIRM'}">
-                                    <form method="post"  action="${pageContext.request.contextPath}/manager/send_receipt">
+                                    <form method="post"
+                                          action="${pageContext.request.contextPath}/manager/send_receipt">
                                         <button name="orderID" value="${order.id}" type="submit"
                                                 class="btn btn-sm btn-outline-secondary">
                                             <fmt:message key="sendReceipt"/>

@@ -42,7 +42,7 @@
                             <c:otherwise>
                                 <li class="page-item">
                                     <a class="page-link"
-                                       href="?page=${page.number - 1}&sortBy=${param.sortBy}"><fmt:message
+                                       href="?page=${page.number - 1}&sortBy=${param.sortBy}&status=${param.status}"><fmt:message
                                             key="previous"/></a>
                                 </li>
                             </c:otherwise>
@@ -55,8 +55,10 @@
                                     </li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li class="page-item"><a class="page-link"
-                                                             href="?page=${i - 1}&sortBy=${param.sortBy}">${i}</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="?page=${i - 1}&sortBy=${param.sortBy}&status=${param.status}">${i}</a>
+                                    </li>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
@@ -69,7 +71,7 @@
                             <c:otherwise>
                                 <li class="page-item">
                                     <a class="page-link"
-                                       href="?page=${page.number + 1}&sortBy=${param.sortBy}"><fmt:message
+                                       href="?page=${page.number + 1}&sortBy=${param.sortBy}&status=${param.status}"><fmt:message
                                             key="next"/></a>
                                 </li>
                             </c:otherwise>
@@ -117,8 +119,7 @@
                         <tr>
                             <td>${counter}</td>
                             <c:set var="counter" value="${counter + 1}"/>
-                            <td><custom:formatDate value="${order.requestDate}"
-                                                   pattern="${locale eq 'uk' ? 'dd/MM/yyyy' : 'yyyy/MM/dd'}"/>
+                            <td>${order.requestDate}
                             </td>
                             <td>${order.receivingDate}</td>
                             <td>${locale == 'uk' ? order.cityFrom.nameUk : order.cityFrom.name}</td>

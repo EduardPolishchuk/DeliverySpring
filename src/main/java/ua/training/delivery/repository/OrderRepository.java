@@ -25,5 +25,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT o FROM Order o where   o.status = :status")
     List<Order> findOrdersWithStatus(@Param("status") String status);
 
-
+    Page<Order> findAllByStatus(OrderStatus status, Pageable pageable);
 }

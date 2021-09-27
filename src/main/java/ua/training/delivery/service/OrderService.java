@@ -7,7 +7,6 @@ import ua.training.delivery.entity.OrderStatus;
 import ua.training.delivery.entity.User;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -19,13 +18,13 @@ public interface OrderService {
 
     Order update(Order order);
 
-    List<Order> findAll();
+    Page<Order> findAll(Pageable pageable);
 
     Page<Order> findUserOrders(User user, Pageable pageable);
 
     Page<Order> findUserOrdersWithStatus(User user, Pageable pageable, OrderStatus status);
 
-    List<Order> findOrdersWithStatus(OrderStatus status);
+    Page<Order> findOrdersWithStatus(Pageable pageable, OrderStatus status);
 
     BigDecimal calculateOrderPrice(Order order);
 }
