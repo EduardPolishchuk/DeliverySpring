@@ -72,12 +72,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean
-    public SavedRequestAwareAuthenticationSuccessHandler successHandler() {
-        SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
-        successHandler.setTargetUrlParameter("/succeslogin");
-        return successHandler;
-    }
+//    @Bean
+//    public SavedRequestAwareAuthenticationSuccessHandler successHandler() {
+//        SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+//        successHandler.setTargetUrlParameter("/succeslogin");
+//        return successHandler;
+//    }
 
 
 }

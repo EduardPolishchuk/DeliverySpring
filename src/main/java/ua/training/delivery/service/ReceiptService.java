@@ -17,7 +17,6 @@ public interface ReceiptService {
 
     List<Receipt> findUserReceipts(User user, boolean paid);
 
-    boolean userPaysReceipt(User user, Long receiptId);
+    boolean userPaysReceipt(User user,Long receiptId);
 
-    List<Receipt> findAll();
 }

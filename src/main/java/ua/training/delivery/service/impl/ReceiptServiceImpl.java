@@ -7,13 +7,11 @@ import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.OrderStatus;
 import ua.training.delivery.entity.Receipt;
 import ua.training.delivery.entity.User;
-import ua.training.delivery.repository.OrderRepository;
 import ua.training.delivery.repository.ReceiptRepository;
 import ua.training.delivery.service.OrderService;
 import ua.training.delivery.service.ReceiptService;
 import ua.training.delivery.service.UserService;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +40,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     @Transactional
-    public boolean create(Long  orderID) {
+    public boolean create(Long orderID) {
         Order order = orderService.findById(orderID).orElseThrow(IndexOutOfBoundsException::new);
         Receipt receipt = Receipt.builder()
                 .order(order)
@@ -51,7 +49,6 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .build();
         receiptRepository.save(receipt);
         order.setStatus(OrderStatus.WAITING_FOR_PAYMENT);
-        order.setReceivingDate(LocalDate.now().plusDays(2));
         orderService.update(order);
         return true;
     }
@@ -68,14 +65,21 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     @Transactional
-    public boolean userPaysReceipt(User user, Long receiptId) {
-        receiptRepository.userPaysReceipt(user,receiptId, OrderStatus.PARCEL_DELIVERY);
-        user.setBalance(userService.getUserBalance(user));
+    public boolean userPaysReceipt(User user,Long receiptId) {
+        Receipt receipt = receiptRepository.findById(receiptId).get();
+        Order order = receipt.getOrder();
+        User userSender = order.getUserSender();
+        if(receipt.getPrice().doubleValue() > userSender.getBalance().doubleValue()){
+            return false;
+        }
+        order.setStatus(OrderStatus.PARCEL_DELIVERY);
+        order.setReceivingDate(LocalDate.now().plusDays(2));
+        receipt.setPaid(true);
+        userSender.setBalance(userSender.getBalance().subtract(receipt.getPrice()));
+        receiptRepository.save(receipt);
+        user.setBalance(userSender.getBalance());
         return true;
     }
 
-    @Override
-    public List<Receipt> findAll() {
-        return null;
-    }
+
 }
