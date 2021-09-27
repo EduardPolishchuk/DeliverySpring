@@ -11,7 +11,8 @@
 </head>
 <body style="background-color: black">
 <jsp:include page="../common/header2.jsp"/>
-<h2 class="display-3 text-center" style="color: #000102; background-color: rgba(255,238,231,0.87)"><fmt:message key="myOrders"/> </h2>
+<h2 class="display-3 text-center" style="color: #000102; background-color: rgba(255,238,231,0.87)"><fmt:message
+        key="myOrders"/></h2>
 <div class="row " style="align-self: center">
     <div class="col">
         <h5 class="display-8 text-center" style="color: #000102"><fmt:message key="status"/></h5>
@@ -40,12 +41,12 @@
                         key="DELIVERED"/></label>
             </div>
         </form>
-        <c:if test="${noOfPages > 1}">
+        <c:if test="${page.totalPages > 0}">
             <div>
                 <nav aria-label="...">
                     <ul class="pagination justify-content-center">
                         <c:choose>
-                            <c:when test="${currentPage <= 1}">
+                            <c:when test="${page.number <= 0}">
                                 <li class="page-item disabled">
                                     <span class="page-link"><fmt:message key="previous"/></span>
                                 </li>
@@ -53,32 +54,32 @@
                             <c:otherwise>
                                 <li class="page-item">
                                     <a class="page-link"
-                                       href="?page=${currentPage - 1}&sortBy=${sortBy}&status=${param.status}"><fmt:message key="previous"/></a>
+                                       href="?page=${page.number - 1}"><fmt:message key="previous"/></a>
                                 </li>
                             </c:otherwise>
                         </c:choose>
-                        <c:forEach begin="1" end="${noOfPages}" var="i">
+                        <c:forEach begin="1" end="${page.totalPages }" var="i">
                             <c:choose>
-                                <c:when test="${currentPage eq i}">
+                                <c:when test="${page.number  eq i - 1}">
                                     <li class="page-item active" aria-current="page">
                                         <span class="page-link">${i}</span>
                                     </li>
                                 </c:when>
                                 <c:otherwise>
                                     <li class="page-item"><a class="page-link"
-                                                             href="?page=${i}&sortBy=${sortBy}&status=${param.status}">${i}</a></li>
+                                                             href="?page=${i - 1}">${i}</a></li>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
                         <c:choose>
-                            <c:when test="${currentPage >= noOfPages}">
+                            <c:when test="${page.number >= page.totalPages}">
                                 <li class="page-item disabled">
                                     <span class="page-link"><fmt:message key="next"/></span>
                                 </li>
                             </c:when>
                             <c:otherwise>
                                 <li class="page-item">
-                                    <a class="page-link" href="?page=${currentPage + 1}&sortBy=${sortBy}&status=${param.status}"><fmt:message key="next"/></a>
+                                    <a class="page-link" href="?page=${page.number + 1}"><fmt:message key="next"/></a>
                                 </li>
                             </c:otherwise>
                         </c:choose>
@@ -94,21 +95,26 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <table class="table">
-                        <c:set var="counter" value="${(currentPage - 1)*5 + 1}"/>
+                        <c:set var="counter" value="${(page.number )*page.size + 1}"/>
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col"><a href="?sortBy=${param.sortBy == 'requestDate'? 'requestDateDesc':'requestDate' }&status=${param.status}"
-                                               style="color: black"><fmt:message key="requestDate"/></a></th>
-                            <th scope="col"><a href="?sortBy=${param.sortBy == 'receivingDate'? 'receivingDateDesc':'receivingDate' }&status=${param.status}"
-                                               style="color: black"><fmt:message key="receivingDate"/></a></th>
-                            <th scope="col"><a href="?sortBy=${param.sortBy == 'cityFrom'? 'cityFromDesc':'cityFrom' }&status=${param.status}"
-                                               style="color: black"><fmt:message key="cityFrom"/></a></th>
-                            <th scope="col"><a href="?sortBy=${param.sortBy == 'cityTo'? 'cityToDesc':'cityTo' }&status=${param.status}"
-                                               style="color: black"><fmt:message key="cityTo"/></a></th>
+                            <th scope="col"><a
+                                    href="?sortBy=${param.sortBy == 'requestDate'? 'requestDateDesc':'requestDate' }&status=${param.status}"
+                                    style="color: black"><fmt:message key="requestDate"/></a></th>
+                            <th scope="col"><a
+                                    href="?sortBy=${param.sortBy == 'receivingDate'? 'receivingDateDesc':'receivingDate' }&status=${param.status}"
+                                    style="color: black"><fmt:message key="receivingDate"/></a></th>
+                            <th scope="col"><a
+                                    href="?sortBy=${param.sortBy == 'cityFrom'? 'cityFromDesc':'cityFrom' }&status=${param.status}"
+                                    style="color: black"><fmt:message key="cityFrom"/></a></th>
+                            <th scope="col"><a
+                                    href="?sortBy=${param.sortBy == 'cityTo'? 'cityToDesc':'cityTo' }&status=${param.status}"
+                                    style="color: black"><fmt:message key="cityTo"/></a></th>
                             <th scope="col"><fmt:message key="status"/></th>
-                            <th scope="col"><a href="?sortBy=${param.sortBy == 'type'? 'typeDesc':'type' }&status=${param.status}"
-                                               style="color: black"><fmt:message key="type"/></a></th>
+                            <th scope="col"><a
+                                    href="?sortBy=${param.sortBy == 'type'? 'typeDesc':'type' }&status=${param.status}"
+                                    style="color: black"><fmt:message key="type"/></a></th>
                             <th scope="col"><fmt:message key="length"/></th>
                             <th scope="col"><fmt:message key="width"/></th>
                             <th scope="col"><fmt:message key="height"/></th>
@@ -116,7 +122,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="order" items="${orderList}">
+                        <c:forEach var="order" items="${page.content}">
                         <tr>
                             <td>${counter}</td>
                             <c:set var="counter" value="${counter + 1}"/>

@@ -1,5 +1,7 @@
 package ua.training.delivery.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.OrderStatus;
 import ua.training.delivery.entity.User;
@@ -20,7 +22,7 @@ public interface OrderService {
 
     List<Order> findAll();
 
-    List<Order> findUserOrders(User user);
+    Page<Order> findUserOrders(User user, Pageable pageable);
 
     List<Order> findUserOrdersWithStatus(User user, OrderStatus status);
 

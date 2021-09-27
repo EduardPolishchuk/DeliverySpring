@@ -2,10 +2,15 @@ package ua.training.delivery.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.training.delivery.entity.Order;
+import ua.training.delivery.entity.OrderStatus;
 import ua.training.delivery.entity.Parcel;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.*;
@@ -13,7 +18,6 @@ import ua.training.delivery.service.*;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -55,10 +59,12 @@ public class UserController {
     }
 
     @GetMapping("/orders")
-    public String orderListPage(HttpSession session, Model model) {
+    public String orderListPage(HttpSession session, Model model,
+                                @PageableDefault(sort = "requestDate",direction = Sort.Direction.DESC, size = 2) Pageable pageable) {
         User user = (User) session.getAttribute("userProfile");
-        List<Order> list = orderService.findUserOrders(user);
-        model.addAttribute("orderList", list);
+        Page<Order> page = orderService.findUserOrders(user,  pageable);
+
+        model.addAttribute("page", page);
         return "user/userOrders";
     }
 
@@ -76,6 +82,7 @@ public class UserController {
         if ("makeOrder".equals(action)) {
             User user = (User) session.getAttribute("userProfile");
             orderFrom.setUserSender(user);
+            orderFrom.setStatus(OrderStatus.WAITING_FOR_CONFIRM);
             orderFrom.setRequestDate(LocalDate.now());
             orderService.create(orderFrom);
             return "success";
@@ -101,7 +108,8 @@ public class UserController {
     @PostMapping("/pay_receipt")
     public String payReceipt(HttpSession session, @RequestParam("receiptID") Long receiptId) {
         User user = (User) session.getAttribute("userProfile");
-        receiptService.userPaysReceipt(user, receiptId);
-        return "redirect:/success";
+
+        return receiptService.userPaysReceipt(user, receiptId)?
+                "redirect:/success" : "redirect:/error";
     }
 }

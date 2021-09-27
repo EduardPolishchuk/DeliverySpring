@@ -1,6 +1,9 @@
 package ua.training.delivery.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.training.delivery.entity.*;
 import ua.training.delivery.repository.OrderRepository;
@@ -46,8 +49,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findUserOrders(User user) {
-        return orderRepository.findUserOrders(user);
+    public Page<Order> findUserOrders(User user, Pageable pageable) {
+
+        return orderRepository.findUserOrders(user, pageable);
     }
 
     @Override
