@@ -7,7 +7,7 @@ import ua.training.delivery.entity.Tariff;
 import java.util.Optional;
 
 
-public interface TariffRepository extends JpaRepository<Tariff,Long> {
+public interface TariffRepository extends JpaRepository<Tariff, Long> {
 
 
     @Query("SELECT t FROM Tariff t where t.id = 1")
