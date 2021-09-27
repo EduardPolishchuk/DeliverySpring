@@ -3,6 +3,7 @@ package ua.training.delivery.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.time.LocalDate;
 
 @Builder
@@ -27,6 +28,7 @@ public class Order {
     @JoinColumn(name = "user_sender")
     private User userSender;
 
+    @Valid
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "parcel_id")
     private Parcel parcel;

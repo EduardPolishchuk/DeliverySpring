@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.OrderStatus;
@@ -17,11 +19,10 @@ import ua.training.delivery.entity.User;
 import ua.training.delivery.service.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
@@ -50,7 +51,7 @@ public class UserController {
 
     @GetMapping
     public String mainPage(Model model) {
-        model.addAttribute("orderForm", Order.builder().parcel(new Parcel()).build());
+        model.addAttribute("orderForm", Order.builder().build());
         model.addAttribute("cityList", cityService.findAll());
         model.addAttribute("tariff", tariffService.getTariff());
         return "user/userMain";
@@ -75,10 +76,10 @@ public class UserController {
         }
         Sort.Direction direction = sortBy.contains("Desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(pageNum.orElse(0), 4,
-                Sort.by(direction,sortBy.replace("Desc","")));
-        if(status.isPresent() && !status.get().isEmpty()){
+                Sort.by(direction, sortBy.replace("Desc", "")));
+        if (status.isPresent() && !status.get().isEmpty()) {
             page = orderService.findUserOrdersWithStatus(user, pageable, OrderStatus.valueOf(status.get()));
-        }else {
+        } else {
             page = orderService.findUserOrders(user, pageable);
         }
 
@@ -95,8 +96,22 @@ public class UserController {
     }
 
     @PostMapping
-    public String userOrderAction(@ModelAttribute("order") Order orderFrom,
+    public String userOrderAction(@ModelAttribute("orderForm") @Valid Order orderFrom, BindingResult bindingResult,
                                   Model model, HttpSession session, @RequestParam() String action) {
+
+        if (bindingResult.hasErrors()) {
+//            System.out.println("============================================");
+//            System.out.println("============================================");
+//           List<FieldError> list = bindingResult.getFieldErrors();
+//            for (FieldError f: list                 ) {
+//                System.out.println("FILED==>"+  f.getField());
+//                System.out.println("MESS==>"+  f.getDefaultMessage());
+//                System.out.println("OMJ NAME==>"+  f.getObjectName());
+//                System.out.println("CODE==>"+  f.getCode());
+//                System.out.println("CODE==>"+  f.getRejectedValue());
+//            }
+            return "user/userMain";
+        }
 
         if ("makeOrder".equals(action)) {
             User user = (User) session.getAttribute("userProfile");
@@ -107,7 +122,7 @@ public class UserController {
             return "success";
         }
 
-
+        model.addAttribute("calculatedValue", orderService.calculateOrderPrice(orderFrom));
         model.addAttribute("cityList", cityService.findAll());
         model.addAttribute("tariff", tariffService.getTariff());
         return "user/userMain";
