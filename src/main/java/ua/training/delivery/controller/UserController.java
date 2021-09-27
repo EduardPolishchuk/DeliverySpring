@@ -3,6 +3,7 @@ package ua.training.delivery.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -18,6 +19,9 @@ import ua.training.delivery.service.*;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -59,12 +63,23 @@ public class UserController {
     }
 
     @GetMapping("/orders")
-    public String orderListPage(HttpSession session, Model model,
-                                @PageableDefault(sort = "requestDate",direction = Sort.Direction.DESC, size = 2) Pageable pageable) {
+    public String orderListPage(HttpSession session, Model model, @RequestParam(defaultValue = "id") String sortBy,
+                                @RequestParam Optional<String> status,
+                                @RequestParam("page") Optional<Integer> pageNum) {
+
         User user = (User) session.getAttribute("userProfile");
-        Page<Order> page = orderService.findUserOrders(user,  pageable);
+        Page<Order> page;
+        Sort.Direction direction = sortBy.contains("Desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(pageNum.orElse(0), 4,
+                Sort.by(direction,sortBy.replace("Desc","")));
+        if(status.isPresent() && !status.get().isEmpty()){
+            page = orderService.findUserOrdersWithStatus(user, pageable, OrderStatus.valueOf(status.get()));
+        }else {
+            page = orderService.findUserOrders(user, pageable);
+        }
 
         model.addAttribute("page", page);
+        model.addAttribute("orderStatuses", OrderStatus.values());
         return "user/userOrders";
     }
 
@@ -109,7 +124,7 @@ public class UserController {
     public String payReceipt(HttpSession session, @RequestParam("receiptID") Long receiptId) {
         User user = (User) session.getAttribute("userProfile");
 
-        return receiptService.userPaysReceipt(user, receiptId)?
+        return receiptService.userPaysReceipt(user, receiptId) ?
                 "redirect:/success" : "redirect:/error";
     }
 }

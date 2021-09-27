@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 
-
 public interface OrderService {
 
     Optional<Order> findById(long id);
@@ -24,7 +23,7 @@ public interface OrderService {
 
     Page<Order> findUserOrders(User user, Pageable pageable);
 
-    List<Order> findUserOrdersWithStatus(User user, OrderStatus status);
+    Page<Order> findUserOrdersWithStatus(User user, Pageable pageable, OrderStatus status);
 
     List<Order> findOrdersWithStatus(OrderStatus status);
 

@@ -55,8 +55,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findUserOrdersWithStatus(User user, OrderStatus status) {
-        return orderRepository.findUserOrdersWithStatus(user.getId(), status.toString());
+    public Page<Order> findUserOrdersWithStatus(User user, Pageable pageable, OrderStatus status) {
+        return orderRepository.findUserOrdersWithStatus(user,pageable, status);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
                 + tariff.getUahPerMillimeterLength() * parcel.getLength()
                 + tariff.getUahPerMillimeterWidth() * parcel.getWidth()
                 + tariff.getUahPerKilogramWeight() * getDistance(order.getCityFrom(), order.getCityTo())
-                + tariff.getAdditional()).setScale(1,BigDecimal.ROUND_HALF_UP);
+                + tariff.getAdditional()).setScale(1, BigDecimal.ROUND_HALF_UP);
     }
 
     private float getDistance(City cityFrom, City cityTo) {
