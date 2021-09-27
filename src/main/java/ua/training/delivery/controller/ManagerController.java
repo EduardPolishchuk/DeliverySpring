@@ -53,7 +53,7 @@ public class ManagerController {
 
         Page<Order> page;
         Sort.Direction direction = sortBy.contains("Desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        if ((sortBy.equals("cityTo.name") || sortBy.equals("cityFrom.name"))) {
+        if ((sortBy.contains("cityTo.name") || sortBy.contains("cityFrom.name"))) {
             String locale = (String) session.getAttribute("locale");
             sortBy = "uk".equals(locale) ? sortBy.concat("Uk") : sortBy;
         }
