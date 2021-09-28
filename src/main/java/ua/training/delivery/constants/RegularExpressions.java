@@ -2,10 +2,6 @@ package ua.training.delivery.constants;
 
 public interface RegularExpressions {
 
-
-    /**
-     * Regex
-     */
     String CITY_REGEX_EN = "^[a-zA-Z]+(?:[\\s-][a-zA-Z]+)*$";
     String CITY_REGEX_UK = "[А-ЩЬЮЯЫҐЄІЇа-щьюяыґєії0-9\\']{2,}";
     String LOGIN_REGEX = "^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\\d.-]{1,19}$";
