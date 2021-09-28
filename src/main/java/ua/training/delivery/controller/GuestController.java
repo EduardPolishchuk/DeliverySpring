@@ -46,7 +46,6 @@ public class GuestController {
                 return "redirect:/manager/order_list";
             }
         }
-
         model.addAttribute("orderForm", Order.builder().parcel(new Parcel()).build());
         model.addAttribute("cityList", cityServiceImpl.findAll());
         model.addAttribute("tariff", tariffServiceImpl.getTariff());
@@ -80,5 +79,4 @@ public class GuestController {
     public String success() {
         return "success";
     }
-
 }

@@ -15,17 +15,18 @@ import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.OrderStatus;
 import ua.training.delivery.service.OrderService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/manager/order_list")
-public class OrderListController {
+@RequestMapping("/manager")
+public class OrderController {
 
     @Autowired
     private OrderService orderService;
 
-    @GetMapping
+    @GetMapping("/order_list")
     public String orderListPage(HttpSession session, Model model, @RequestParam(defaultValue = "id") String sortBy,
                                 @RequestParam Optional<String> status,
                                 @RequestParam("page") Optional<Integer> pageNum) {
@@ -47,5 +48,14 @@ public class OrderListController {
         model.addAttribute("page", page);
         model.addAttribute("orderStatuses", OrderStatus.values());
         return "manager/managerOrderList";
+    }
+
+
+    @GetMapping("/order_details")
+    public String orderDetails(Model model, @RequestParam Long orderID) {
+        Order order = orderService.findById(orderID).orElseThrow(EntityNotFoundException::new);
+        model.addAttribute("order", order);
+        model.addAttribute("price", orderService.calculateOrderPrice(order));
+        return "manager/managerOrderDetails";
     }
 }

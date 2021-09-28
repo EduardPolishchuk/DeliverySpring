@@ -52,27 +52,12 @@ public class ManagerController {
 
 
 
-    @GetMapping("/client_list")
-    public String clientList(Model model) {
-        model.addAttribute("clientList", userService.findAllByRole(Role.USER));
-        return "manager/managerClientList";
-    }
 
 
 
 
 
-    @PostMapping("/send_receipt")
-    public String sendReceipt(@RequestParam(name = "orderID") Long orderID) {
-        receiptService.create(orderID);
-        return "redirect:/manager/order_list";
-    }
 
-    @GetMapping("/order_details")
-    public String orderDetails(Model model, @RequestParam Long orderID) {
-        Order order = orderService.findById(orderID).orElseThrow(EntityNotFoundException::new);
-        model.addAttribute("order", order);
-        model.addAttribute("price", orderService.calculateOrderPrice(order));
-        return "manager/managerOrderDetails";
-    }
+
+
 }

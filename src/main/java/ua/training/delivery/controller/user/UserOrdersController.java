@@ -16,6 +16,7 @@ import ua.training.delivery.entity.OrderStatus;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.OrderService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -51,5 +52,13 @@ public class UserOrdersController {
         model.addAttribute("currentDate", LocalDate.now());
         model.addAttribute("orderStatuses", OrderStatus.values());
         return "user/userOrders";
+    }
+
+    @GetMapping("/order_view")
+    public String orderViewPage(@RequestParam long orderID, Model model) {
+        Order order = orderService.findById(orderID).orElseThrow(EntityNotFoundException::new);
+        model.addAttribute("order", order);
+        model.addAttribute("price",orderService.calculateOrderPrice(order));
+        return "user/userOrderView";
     }
 }

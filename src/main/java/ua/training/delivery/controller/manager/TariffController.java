@@ -13,7 +13,7 @@ import ua.training.delivery.service.TariffService;
 
 @Controller
 @RequestMapping("/manager/tariff")
-public class UpdateTariffController {
+public class TariffController {
 
     @Autowired
     private TariffService tariffService;

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ua.training.delivery.controller.ErrorControllerImpl;
 import ua.training.delivery.entity.City;
 import ua.training.delivery.service.CityService;
 
@@ -17,12 +16,12 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/manager")
-public class AddCityController {
+public class CityController {
 
     @Autowired
     private CityService cityService;
 
-    private static final Logger logger = LoggerFactory.getLogger(AddCityController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CityController.class);
 
     @GetMapping("/add_city")
     public String addCityGet(Model model) {
@@ -58,13 +57,12 @@ public class AddCityController {
         cityForm.setLongitude(longitude);
         try {
             cityService.create(cityForm);
+            logger.info("New city was added: " + cityForm.getName());
             return "redirect:/success";
         } catch (DataIntegrityViolationException e) {
             model.addAttribute("cityExitsError", cityForm.getName() + ", " + cityForm.getNameUk());
             logger.error("City: " + cityForm.getName() + " already exists!");
             return "manager/managerAddCity";
         }
-
     }
-
 }
