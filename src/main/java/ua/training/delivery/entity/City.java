@@ -5,8 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
-import static ua.training.delivery.constants.Constants.CITY_REGEX_EN;
-import static ua.training.delivery.constants.Constants.CITY_REGEX_UK;
+import static ua.training.delivery.constants.RegularExpressions.CITY_REGEX_EN;
+import static ua.training.delivery.constants.RegularExpressions.CITY_REGEX_UK;
 
 @Builder
 @Data

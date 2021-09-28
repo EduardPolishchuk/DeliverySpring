@@ -21,7 +21,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h3 class="display-5"><fmt:message key="enterYourData"/></h3>
-                        <form:form modelAttribute="userForm" method="post"  action="${pageContext.request.contextPath}/signUp/up">
+                        <form:form modelAttribute="userForm" method="post"  action="${pageContext.request.contextPath}/signUp">
                             <div class="mb-2 ">
                                 <label  class="form-label"><fmt:message key="userName"/> </label>
                                 <form:input type="text" path="login" class="form-control" name="login"

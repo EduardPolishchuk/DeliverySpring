@@ -9,7 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 
-import static ua.training.delivery.constants.Constants.*;
+import static ua.training.delivery.constants.RegularExpressions.*;
 
 @Builder
 @Data

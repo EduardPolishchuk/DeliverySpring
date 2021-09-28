@@ -45,7 +45,7 @@ public class SignController {
         return "signUp";
     }
 
-    @PostMapping(value = "/up")
+    @PostMapping()
     public String signUp(HttpServletRequest request, HttpSession session,
                          @ModelAttribute("userForm") @Valid User user,
                          BindingResult bindingResult, Model model) {

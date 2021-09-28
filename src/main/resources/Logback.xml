@@ -25,7 +25,9 @@
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <logger name="ua.training" level="error"/>
+    <logger name="ua.training.delivery.controller" level="info">
+        <appender-ref ref="FILE"/>
+    </logger>
 
     <root level="ERROR">
         <appender-ref ref="STDOUT"/>

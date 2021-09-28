@@ -58,11 +58,6 @@ public class UserController {
     }
 
 
-    @GetMapping("/profile")
-    public String profilePage() {
-        return "user/userprofile";
-    }
-
     @GetMapping("/orders")
     public String orderListPage(HttpSession session, Model model, @RequestParam(defaultValue = "id") String sortBy,
                                 @RequestParam Optional<String> status,
@@ -99,19 +94,10 @@ public class UserController {
     public String userOrderAction(@ModelAttribute("orderForm") @Valid Order orderFrom, BindingResult bindingResult,
                                   Model model, HttpSession session, @RequestParam() String action) {
 
-//        if (bindingResult.hasErrors()) {
-//            System.out.println("============================================");
-//            System.out.println("============================================");
-//           List<FieldError> list = bindingResult.getFieldErrors();
-//            for (FieldError f: list                 ) {
-//                System.out.println("FILED==>"+  f.getField());
-//                System.out.println("MESS==>"+  f.getDefaultMessage());
-//                System.out.println("OMJ NAME==>"+  f.getObjectName());
-//                System.out.println("CODE==>"+  f.getCode());
-//                System.out.println("CODE==>"+  f.getRejectedValue());
-//            }
-//            return "user/userMain";
-//        }
+        if (bindingResult.hasErrors()) {
+
+            return "user/userMain";
+        }
 
         if ("makeOrder".equals(action)) {
             User user = (User) session.getAttribute("userProfile");
