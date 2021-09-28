@@ -32,10 +32,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByLogin(login);
     }
 
-    @Override
-    public Optional<User> findById(Long id) {
-        return Optional.empty();
-    }
 
     @Override
     @Transactional
@@ -53,24 +49,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    @Override
     public List<User> findAllByRole(Role role) {
         return userRepository.findAllByRole(role);
     }
 
     @Override
-    public BigDecimal getUserBalance(User user) {
-        return userRepository.getUserBalance(user.getId());
-    }
-
-    @Override
     @Transactional
     public boolean balanceReplenishment(User user, BigDecimal amount) {
-        userRepository.changeUserBalance(user.getId(),amount);
+        userRepository.changeUserBalance(user.getId(), amount);
         user.setBalance(userRepository.getUserBalance(user.getId()));
         return true;
     }

@@ -80,11 +80,7 @@ public class ManagerController {
         return "manager/managerClientList";
     }
 
-    @GetMapping("/tariff")
-    public String tariffView(Model model) {
-        model.addAttribute("tariff", tariffService.getTariff());
-        return "manager/managerChangeTariff";
-    }
+
 
     @GetMapping("/add_city")
     public String addCityGet(Model model) {

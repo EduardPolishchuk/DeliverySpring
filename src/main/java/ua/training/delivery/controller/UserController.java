@@ -101,6 +101,8 @@ public class UserController {
         }
         if (orderFrom.getCityFrom().equals(orderFrom.getCityTo())) {
             model.addAttribute("error", "sameCity");
+            model.addAttribute("cityList", cityService.findAll());
+            model.addAttribute("tariff", tariffService.getTariff());
             return "/user/userMain";
         }
         if ("makeOrder".equals(action)) {
