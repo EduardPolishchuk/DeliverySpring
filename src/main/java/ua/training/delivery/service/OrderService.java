@@ -18,6 +18,8 @@ public interface OrderService {
 
     Order update(Order order);
 
+    boolean getParcel(Long orderId);
+
     Page<Order> findAll(Pageable pageable);
 
     Page<Order> findUserOrders(User user, Pageable pageable);

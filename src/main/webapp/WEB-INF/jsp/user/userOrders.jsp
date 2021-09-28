@@ -95,6 +95,7 @@
                             <th scope="col"><a
                                     href="?sortBy=${param.sortBy == 'requestDate'? 'requestDateDesc':'requestDate' }&status=${param.status}"
                                     style="color: black"><fmt:message key="requestDate"/></a></th>
+                            <th></th>
                             <th scope="col"><a
                                     href="?sortBy=${param.sortBy == 'receivingDate'? 'receivingDateDesc':'receivingDate' }&status=${param.status}"
                                     style="color: black"><fmt:message key="receivingDate"/></a></th>
@@ -120,6 +121,17 @@
                             <td>${counter}</td>
                             <c:set var="counter" value="${counter + 1}"/>
                             <td>${order.requestDate}
+                            </td>
+                            <td>
+                                <c:if test="${order.receivingDate.isBefore(currentDate) &&
+                                order.status != 'DELIVERED'}">
+                                    <form method="post" action="${pageContext.request.contextPath}/user/get_parcel">
+                                        <button name="orderID" value="${order.id}" type="submit"
+                                                class="btn btn-sm btn-outline-secondary">
+                                            <fmt:message key="get"/>
+                                        </button>
+                                    </form>
+                                </c:if>
                             </td>
                             <td>${order.receivingDate}</td>
                             <td>${locale == 'uk' ? order.cityFrom.nameUk : order.cityFrom.name}</td>

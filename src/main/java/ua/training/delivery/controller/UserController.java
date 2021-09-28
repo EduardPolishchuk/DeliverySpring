@@ -79,6 +79,7 @@ public class UserController {
         }
 
         model.addAttribute("page", page);
+        model.addAttribute("currentDate", LocalDate.now());
         model.addAttribute("orderStatuses", OrderStatus.values());
         return "user/userOrders";
     }
@@ -136,5 +137,13 @@ public class UserController {
 
         return receiptService.userPaysReceipt(user, receiptId) ?
                 "redirect:/success" : "redirect:/insufficientFundsError";
+    }
+
+    @PostMapping("/get_parcel")
+    public String getParcel(@RequestParam Long orderID){
+
+        orderService.getParcel(orderID);
+
+        return "redirect:/user/orders";
     }
 }

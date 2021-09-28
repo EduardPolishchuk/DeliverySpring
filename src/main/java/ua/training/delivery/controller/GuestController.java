@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import ua.training.delivery.entity.Order;
@@ -14,6 +15,7 @@ import ua.training.delivery.service.CityService;
 import ua.training.delivery.service.OrderService;
 import ua.training.delivery.service.TariffService;
 
+import javax.validation.Valid;
 import java.util.Collection;
 
 @Controller
@@ -53,7 +55,14 @@ public class GuestController {
     }
 
     @GetMapping("/calculate")
-    public String calculate(@ModelAttribute("orderForm") Order orderForm, Model model) {
+    public String calculate(@ModelAttribute("orderForm") @Valid Order orderForm,
+                            BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()){
+
+
+        }
+
         if (orderForm.getCityFrom().equals(orderForm.getCityTo())) {
             model.addAttribute("error", "sameCity");
         } else {

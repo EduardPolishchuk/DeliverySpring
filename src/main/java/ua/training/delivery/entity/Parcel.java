@@ -24,20 +24,20 @@ public class Parcel {
     private String type;
 
 
-    @Min(value = 1, message = "MORE THEN 1! length")
+    @Min(value = 1)
     @Max(value = 1000)
     @Column(name = "length")
     private float length;
 
 
-    @Min(value = 1, message = "MORE THEN 1! width")
+    @Min(value = 1)
     @Max(value = 1000)
     @Column(name = "width")
     private float width;
 
 
-    @Min(value = 1, message = "MORE THEN 1! width")
-    @Max(value = 2000,message = "")
+    @Min(value = 1)
+    @Max(value = 2000)
     @Column(name = "height")
     private float height;
 

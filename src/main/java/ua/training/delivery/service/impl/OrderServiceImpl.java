@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.training.delivery.entity.*;
 import ua.training.delivery.repository.OrderRepository;
 import ua.training.delivery.repository.TariffRepository;
@@ -40,6 +41,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order update(Order order) {
         return orderRepository.save(order);
+    }
+
+    @Override
+    @Transactional
+    public boolean getParcel(Long orderId) {
+        Order order = orderRepository.getById(orderId);
+        order.setStatus(OrderStatus.DELIVERED);
+        orderRepository.save(order);
+        return true;
     }
 
     @Override

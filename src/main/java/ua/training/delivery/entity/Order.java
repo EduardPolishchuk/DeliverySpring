@@ -33,6 +33,7 @@ public class Order {
     @JoinColumn(name = "parcel_id")
     private Parcel parcel;
 
+
     @ManyToOne(fetch = FetchType.EAGER)
     private City cityTo;
 
