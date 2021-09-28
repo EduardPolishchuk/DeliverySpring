@@ -117,7 +117,11 @@
                         <tr>
                             <td>${counter}</td>
                             <c:set var="counter" value="${counter + 1}"/>
-                            <td>${order.requestDate}
+                            <td><fmt:parseDate value="${order.requestDate}" pattern="yyyy-MM-dd"
+                                var="parsedDate" type="date" />
+                                <fmt:formatDate value="${parsedDate}" var="stdDatum"
+                                                type="date" pattern="${locale eq 'uk'? 'dd-MM-yyyy': 'yyyy-MM-dd' }" />
+                                    ${stdDatum}
                             </td>
                             <td>
                                 <form method="get" action="${pageContext.request.contextPath}/manager/order_details">

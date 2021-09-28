@@ -9,4 +9,4 @@ Clone it from GitHub git clone https://github.com/EduardPolishchuk/DeliverySprin
 ## To run the project
 1) Install database
 2) Build and deploy the project with maven mvn spring-boot:run 
-3) Go to url localhost:8090/Delivery
+3) Go to url http://localhost:8090/Delivery
