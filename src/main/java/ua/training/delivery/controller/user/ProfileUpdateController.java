@@ -16,6 +16,9 @@ import ua.training.delivery.service.UserService;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import static ua.training.delivery.constants.Constants.USER_FORM;
+import static ua.training.delivery.constants.Constants.USER_PROFILE;
+
 @Controller
 @RequestMapping("/user/profile")
 public class ProfileUpdateController {
@@ -28,18 +31,26 @@ public class ProfileUpdateController {
 
     @GetMapping
     public String profilePage(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("userProfile");
-        model.addAttribute("userForm", user);
-        return "user/userprofile";
+        User user = (User) session.getAttribute(USER_PROFILE);
+        model.addAttribute(USER_FORM, user);
+        return "user/userProfile";
     }
 
     @PostMapping("/update")
-    public String updateProfile(HttpSession session,
-                                @ModelAttribute User userForm, BindingResult bindingResult) {
+    public String updateProfile(HttpSession session, Model model,
+                                @ModelAttribute(USER_FORM) @Valid User userForm, BindingResult bindingResult) {
+       if(bindingResult.hasErrors()){
+           StringBuilder sb = new StringBuilder();
+           bindingResult.getFieldErrors().stream()
+                   .filter(er -> !er.getObjectName().equals("password"))
+                   .forEach(er -> sb.append(er.getRejectedValue()).append(" "));
+           model.addAttribute("error", sb.toString());
+           return "user/userProfile";
+       }
         userForm.setPassword(passwordEncoder.encode(userForm.getPassword()));
         userService.update(userForm);
         userForm.setPassword("");
-        session.setAttribute("userProfile", userForm);
+        session.setAttribute(USER_PROFILE, userForm);
         return "redirect:/user/profile/";
     }
 }

@@ -15,6 +15,7 @@ import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.OrderStatus;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.OrderService;
+import static ua.training.delivery.constants.Constants.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
@@ -31,34 +32,34 @@ public class UserOrdersController {
     @GetMapping("/orders")
     public String orderListPage(HttpSession session, Model model, @RequestParam(defaultValue = "id") String sortBy,
                                 @RequestParam Optional<String> status,
-                                @RequestParam("page") Optional<Integer> pageNum) {
+                                @RequestParam(PAGE) Optional<Integer> pageNum) {
 
-        User user = (User) session.getAttribute("userProfile");
+        User user = (User) session.getAttribute(USER_PROFILE);
         Page<Order> page;
-        if ((sortBy.contains("cityTo.name") || sortBy.contains("cityFrom.name"))) {
-            String locale = (String) session.getAttribute("locale");
+        if ((sortBy.contains(CITY_TO_NAME) || sortBy.contains(CITY_FROM_NAME))) {
+            String locale = (String) session.getAttribute(LOCALE);
             sortBy = "uk".equals(locale) ? sortBy.concat("Uk") : sortBy;
         }
-        Sort.Direction direction = sortBy.contains("Desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort.Direction direction = sortBy.contains(DESC) ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(pageNum.orElse(0), 4,
-                Sort.by(direction, sortBy.replace("Desc", "")));
+                Sort.by(direction, sortBy.replace(DESC, "")));
         if (status.isPresent() && !status.get().isEmpty()) {
             page = orderService.findUserOrdersWithStatus(user, pageable, OrderStatus.valueOf(status.get()));
         } else {
             page = orderService.findUserOrders(user, pageable);
         }
 
-        model.addAttribute("page", page);
-        model.addAttribute("currentDate", LocalDate.now());
-        model.addAttribute("orderStatuses", OrderStatus.values());
+        model.addAttribute(PAGE, page);
+        model.addAttribute(CURRENT_DATE, LocalDate.now());
+        model.addAttribute(ORDER_STATUSES, OrderStatus.values());
         return "user/userOrders";
     }
 
     @GetMapping("/order_view")
     public String orderViewPage(@RequestParam long orderID, Model model) {
         Order order = orderService.findById(orderID).orElseThrow(EntityNotFoundException::new);
-        model.addAttribute("order", order);
-        model.addAttribute("price",orderService.calculateOrderPrice(order));
+        model.addAttribute(ORDER, order);
+        model.addAttribute(PRICE,orderService.calculateOrderPrice(order));
         return "user/userOrderView";
     }
 }

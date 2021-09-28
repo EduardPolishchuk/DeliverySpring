@@ -62,11 +62,10 @@
                                     </div>
                                 </c:otherwise>
                             </c:choose>
-                            ${pageContext.session.removeAttribute('error')}
                         </c:if>
                         <button type="submit" class="btn btn-primary"  ${vari}><fmt:message key="update"/></button>
                     </form:form>
-                    <form action="">
+                    <form action="${pageContext.request.contextPath}/user/profile">
                         <button type="submit" class="btn btn-dark" name="edit" value="${vari != null  ? '1' : null}">
                             <fmt:message key="edit"/></button>
                     </form>

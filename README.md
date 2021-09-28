@@ -8,6 +8,5 @@
 Clone it from GitHub git clone https://github.com/EduardPolishchuk/DeliverySpring.git
 ## To run the project
 1) Install database
-2) Run SQL Script to fill database
-3) Build and deploy the project with maven mvn spring-boot:run 
-4) Go to url localhost:8090/Delivery
+2) Build and deploy the project with maven mvn spring-boot:run 
+3) Go to url localhost:8090/Delivery
