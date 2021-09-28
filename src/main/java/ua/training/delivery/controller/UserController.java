@@ -65,7 +65,7 @@ public class UserController {
 
         User user = (User) session.getAttribute("userProfile");
         Page<Order> page;
-        if ((sortBy.equals("cityTo.name") || sortBy.equals("cityFrom.name"))) {
+        if ((sortBy.contains("cityTo.name") || sortBy.contains("cityFrom.name"))) {
             String locale = (String) session.getAttribute("locale");
             sortBy = "uk".equals(locale) ? sortBy.concat("Uk") : sortBy;
         }
@@ -96,12 +96,13 @@ public class UserController {
                                   Model model, HttpSession session, @RequestParam() String action) {
 
         if (bindingResult.hasErrors()) {
-            bindingResult.getFieldErrors().forEach(s -> System.out.println(s.getField()));
-            model.addAttribute("cityList", cityService.findAll());
-            model.addAttribute("tariff", tariffService.getTariff());
-            return "/user/";
-        }
 
+            return "/error";
+        }
+        if (orderFrom.getCityFrom().equals(orderFrom.getCityTo())) {
+            model.addAttribute("error", "sameCity");
+            return "/user/userMain";
+        }
         if ("makeOrder".equals(action)) {
             User user = (User) session.getAttribute("userProfile");
             orderFrom.setUserSender(user);
@@ -113,7 +114,6 @@ public class UserController {
             orderService.create(orderFrom);
             return "redirect:/success";
         }
-
         model.addAttribute("calculatedValue", orderService.calculateOrderPrice(orderFrom));
         model.addAttribute("cityList", cityService.findAll());
         model.addAttribute("tariff", tariffService.getTariff());

@@ -58,11 +58,9 @@ public class GuestController {
     public String calculate(@ModelAttribute("orderForm") @Valid Order orderForm,
                             BindingResult bindingResult, Model model) {
 
-        if (bindingResult.hasErrors()){
-
-
+        if (bindingResult.hasErrors()) {
+            return "/error";
         }
-
         if (orderForm.getCityFrom().equals(orderForm.getCityTo())) {
             model.addAttribute("error", "sameCity");
         } else {

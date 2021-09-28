@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService {
     public boolean create(User user) {
         if (userRepository.existsByLogin(user.getLogin()))
             return false;
-
         userRepository.save(user);
         return true;
     }
