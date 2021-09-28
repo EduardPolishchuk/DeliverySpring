@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.UserService;
-
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import static ua.training.delivery.constants.Constants.*;
+
 
 @Controller
 @RequestMapping("/user/change_balance")
@@ -24,11 +25,11 @@ public class BalanceReplenishmentController {
     }
 
     @PostMapping
-    public String changeBalance(HttpSession session, @RequestParam("amount") BigDecimal amount) {
+    public String changeBalance(HttpSession session, @RequestParam(AMOUNT) BigDecimal amount) {
         if (amount.intValue() < 0) {
             return "error";
         }
-        User user = (User) session.getAttribute("userProfile");
+        User user = (User) session.getAttribute(USER_PROFILE);
         userService.balanceReplenishment(user, amount);
         return "redirect:/success";
     }

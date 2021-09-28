@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.UserService;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import static ua.training.delivery.constants.Constants.USER_FORM;
-import static ua.training.delivery.constants.Constants.USER_PROFILE;
+
+import static ua.training.delivery.constants.Constants.*;
 
 @Controller
 @RequestMapping("/user/profile")
@@ -42,9 +41,9 @@ public class ProfileUpdateController {
        if(bindingResult.hasErrors()){
            StringBuilder sb = new StringBuilder();
            bindingResult.getFieldErrors().stream()
-                   .filter(er -> !er.getObjectName().equals("password"))
+                   .filter(er -> !er.getObjectName().equals(PASSWORD))
                    .forEach(er -> sb.append(er.getRejectedValue()).append(" "));
-           model.addAttribute("error", sb.toString());
+           model.addAttribute(ERROR, sb.toString());
            return "user/userProfile";
        }
         userForm.setPassword(passwordEncoder.encode(userForm.getPassword()));

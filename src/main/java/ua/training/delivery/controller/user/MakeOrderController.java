@@ -18,10 +18,11 @@ import ua.training.delivery.entity.User;
 import ua.training.delivery.service.CityService;
 import ua.training.delivery.service.OrderService;
 import ua.training.delivery.service.TariffService;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDate;
+import static ua.training.delivery.constants.Constants.*;
+
 
 @Controller
 @RequestMapping("/user/")
@@ -45,27 +46,27 @@ public class MakeOrderController {
 
     @GetMapping
     public String mainPage(Model model) {
-        model.addAttribute("orderForm", Order.builder().parcel(new Parcel()).build());
-        model.addAttribute("cityList", cityService.findAll());
+        model.addAttribute(ORDER_FORM, Order.builder().parcel(new Parcel()).build());
+        model.addAttribute(CITY_LIST, cityService.findAll());
         model.addAttribute("tariff", tariffService.getTariff());
         return "user/userMain";
     }
 
     @GetMapping("/order_action")
-    public String userOrderAction(@ModelAttribute("orderForm") @Valid Order orderFrom, BindingResult bindingResult,
+    public String userOrderAction(@ModelAttribute(ORDER_FORM) @Valid Order orderFrom, BindingResult bindingResult,
                                   Model model, HttpSession session, @RequestParam() String action) {
 
         if (bindingResult.hasErrors()) {
             return "/error";
         }
         if (orderFrom.getCityFrom().equals(orderFrom.getCityTo())) {
-            model.addAttribute("error", "sameCity");
-            model.addAttribute("cityList", cityService.findAll());
-            model.addAttribute("tariff", tariffService.getTariff());
+            model.addAttribute(ERROR, SAME_CITY);
+            model.addAttribute(CITY_LIST, cityService.findAll());
+            model.addAttribute(TARIFF, tariffService.getTariff());
             return "/user/userMain";
         }
-        if ("makeOrder".equals(action)) {
-            User user = (User) session.getAttribute("userProfile");
+        if (MAKE_ORDER.equals(action)) {
+            User user = (User) session.getAttribute(USER_PROFILE);
             orderFrom.setUserSender(user);
             orderFrom.setStatus(OrderStatus.WAITING_FOR_CONFIRM);
             orderFrom.setRequestDate(LocalDate.now());
@@ -76,9 +77,9 @@ public class MakeOrderController {
             logger.info("Order was made, ID: " + orderFrom.getId());
             return "redirect:/success";
         }
-        model.addAttribute("calculatedValue", orderService.calculateOrderPrice(orderFrom));
-        model.addAttribute("cityList", cityService.findAll());
-        model.addAttribute("tariff", tariffService.getTariff());
+        model.addAttribute(CALCULATED_VALUE, orderService.calculateOrderPrice(orderFrom));
+        model.addAttribute(CITY_LIST, cityService.findAll());
+        model.addAttribute(TARIFF, tariffService.getTariff());
         return "user/userMain";
     }
 }

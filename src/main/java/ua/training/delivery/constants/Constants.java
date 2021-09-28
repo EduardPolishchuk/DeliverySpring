@@ -23,4 +23,14 @@ public interface Constants {
     String LONGITUDE = "longitude";
     String CITY_EXITS_ERROR = "cityExitsError";
     String CLIENT_LIST = "clientList";
+    String ORDER_ID = "orderID";
+    String TARIFF = "tariff";
+    String AMOUNT = "amount";
+    String ORDER_FORM = "orderForm";
+    String CITY_LIST = "cityList";
+    String ERROR = "error";
+    String SAME_CITY = "sameCity";
+    String MAKE_ORDER = "makeOrder";
+    String CALCULATED_VALUE = "calculatedValue";
+    String PASSWORD = "password";
 }

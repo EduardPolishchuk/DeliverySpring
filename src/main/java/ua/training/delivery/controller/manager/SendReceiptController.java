@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.training.delivery.service.ReceiptService;
+import static ua.training.delivery.constants.Constants.*;
 
 @Controller
 @RequestMapping("/manager/send_receipt")
@@ -20,7 +21,7 @@ public class SendReceiptController {
     }
 
     @PostMapping
-    public String sendReceipt(@RequestParam(name = "orderID") Long orderID) {
+    public String sendReceipt(@RequestParam(name = ORDER_ID) Long orderID) {
         receiptService.create(orderID);
         return "redirect:/manager/order_list";
     }

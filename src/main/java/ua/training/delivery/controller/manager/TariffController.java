@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.training.delivery.entity.Tariff;
 import ua.training.delivery.service.TariffService;
+import static ua.training.delivery.constants.Constants.*;
 
 @Controller
 @RequestMapping("/manager/tariff")
@@ -20,7 +21,7 @@ public class TariffController {
 
     @GetMapping
     public String tariffPage(Model model) {
-        model.addAttribute("tariff", tariffService.getTariff());
+        model.addAttribute(TARIFF, tariffService.getTariff());
         return "manager/managerChangeTariff";
     }
 
