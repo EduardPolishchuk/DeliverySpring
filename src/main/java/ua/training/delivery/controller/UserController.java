@@ -49,13 +49,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/receipts")
-    public String receiptListPage(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("userProfile");
-        model.addAttribute("receiptList", receiptService.findUserReceipts(user, false));
-        return "user/userReceipts";
-    }
-
 
 
     @PostMapping("/change_balance")
@@ -69,13 +62,6 @@ public class UserController {
     }
 
 
-    @PostMapping("/pay_receipt")
-    public String payReceipt(HttpSession session, @RequestParam("receiptID") Long receiptId) {
-        User user = (User) session.getAttribute("userProfile");
-
-        return receiptService.userPaysReceipt(user, receiptId) ?
-                "redirect:/success" : "redirect:/insufficientFundsError";
-    }
 
     @PostMapping("/get_parcel")
     public String getParcel(@RequestParam Long orderID){

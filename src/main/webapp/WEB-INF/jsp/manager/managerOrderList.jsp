@@ -105,9 +105,7 @@
                                     href="?sortBy=${param.sortBy == 'cityTo.name'? 'cityTo.nameDesc':'cityTo.name' }&status=${param.status}"
                                     style="color: black"><fmt:message key="cityTo"/></a></th>
                             <th scope="col"><fmt:message key="status"/></th>
-                            <th scope="col"><a
-                                    href="?sortBy=${param.sortBy == 'parcel.type'? 'parcel.typeDesc':'parcel.type' }&status=${param.status}"
-                                    style="color: black"><fmt:message key="type"/></a></th>
+                            <th scope="col"><fmt:message key="type"/></th>
                             <th scope="col"><fmt:message key="length"/></th>
                             <th scope="col"><fmt:message key="width"/></th>
                             <th scope="col"><fmt:message key="height"/></th>
