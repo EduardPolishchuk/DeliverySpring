@@ -36,12 +36,13 @@ public class Parcel {
     private float width;
 
 
-    @Max(value = 1, message = "MORE THEN 1! width")
+    @Min(value = 1, message = "MORE THEN 1! width")
     @Max(value = 2000,message = "")
     @Column(name = "height")
     private float height;
 
 
+    @Min(value = 1)
     @Max(value = 200)
     @Column(name = "weight")
     private float weight;

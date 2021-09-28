@@ -44,6 +44,7 @@ public class GuestController {
                 return "redirect:/manager/order_list";
             }
         }
+
         model.addAttribute("orderForm", Order.builder().parcel(new Parcel()).build());
         model.addAttribute("cityList", cityServiceImpl.findAll());
         model.addAttribute("tariff", tariffServiceImpl.getTariff());
@@ -53,7 +54,11 @@ public class GuestController {
 
     @GetMapping("/calculate")
     public String calculate(@ModelAttribute("orderForm") Order orderForm, Model model) {
-        model.addAttribute("calculatedValue", orderService.calculateOrderPrice(orderForm));
+        if (orderForm.getCityFrom().equals(orderForm.getCityTo())) {
+            model.addAttribute("error", "sameCity");
+        } else {
+            model.addAttribute("calculatedValue", orderService.calculateOrderPrice(orderForm));
+        }
         model.addAttribute("cityList", cityServiceImpl.findAll());
         model.addAttribute("tariff", tariffServiceImpl.getTariff());
         return "index";

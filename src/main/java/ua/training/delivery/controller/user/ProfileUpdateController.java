@@ -29,7 +29,6 @@ public class ProfileUpdateController {
     @GetMapping
     public String profilePage(HttpSession session, Model model) {
         User user = (User) session.getAttribute("userProfile");
-        System.out.println(user);
         model.addAttribute("userForm", user);
         return "user/userprofile";
     }

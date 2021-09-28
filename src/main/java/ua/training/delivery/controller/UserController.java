@@ -95,8 +95,10 @@ public class UserController {
                                   Model model, HttpSession session, @RequestParam() String action) {
 
         if (bindingResult.hasErrors()) {
-
-            return "user/userMain";
+            bindingResult.getFieldErrors().forEach(s -> System.out.println(s.getField()));
+            model.addAttribute("cityList", cityService.findAll());
+            model.addAttribute("tariff", tariffService.getTariff());
+            return "/user/";
         }
 
         if ("makeOrder".equals(action)) {
@@ -104,7 +106,7 @@ public class UserController {
             orderFrom.setUserSender(user);
             orderFrom.setStatus(OrderStatus.WAITING_FOR_CONFIRM);
             orderFrom.setRequestDate(LocalDate.now());
-            if(orderFrom.getParcel().getType() == null || orderFrom.getParcel().getType().isEmpty()){
+            if (orderFrom.getParcel().getType() == null || orderFrom.getParcel().getType().isEmpty()) {
                 orderFrom.getParcel().setType("Other");
             }
             orderService.create(orderFrom);
@@ -133,6 +135,6 @@ public class UserController {
         User user = (User) session.getAttribute("userProfile");
 
         return receiptService.userPaysReceipt(user, receiptId) ?
-                "redirect:/success" : "redirect:/error";
+                "redirect:/success" : "redirect:/insufficientFundsError";
     }
 }

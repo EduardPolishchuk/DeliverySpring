@@ -22,7 +22,7 @@
         <div class="col ">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <form:form  id="form2" method="get" modelAttribute="orderForm"
+                    <form:form id="form2" method="get" modelAttribute="orderForm"
                                action="${pageContext.request.contextPath}/calculate">
                         <h4 class="display-5 text-center" style="align-content: center"><fmt:message
                                 key="calculateTheCost"/></h4>
@@ -31,25 +31,21 @@
                         <div class="row g-3 mb-3">
                             <div class="col">
                                 <label class="form-label"><fmt:message key="length"/>, <fmt:message key="mm"/></label>
-                                <form:input class="form-control" path="parcel.length" type="number" min="1" max="1000"
-                                            value="${parcel.length}"/>
+                                <form:input class="form-control" path="parcel.length" type="number" min="1" max="1000"/>
                             </div>
                             <div class="col">
                                 <label class="form-label"><fmt:message key="width"/>, <fmt:message key="mm"/></label>
-                                <form:input class="form-control" path="parcel.width" type="number" min="1" max="1000"
-                                            value="${parcel.width}"/>
+                                <form:input class="form-control" path="parcel.width" type="number" min="1" max="1000"/>
 
                             </div>
                             <div class="col">
                                 <label class="form-label"><fmt:message key="height"/>, <fmt:message key="mm"/></label>
-                                <form:input class="form-control" path="parcel.height" type="number" min="1" max="2000"
-                                            value="${parcel.height}"/>
+                                <form:input class="form-control" path="parcel.height" type="number" min="1" max="2000" />
 
                             </div>
                             <div class="col">
                                 <label class="form-label"><fmt:message key="weight"/>, <fmt:message key="kg"/></label>
-                                <form:input class="form-control" path="parcel.weight" type="number" min="1" max="200"
-                                            value="${parcel.weight}"/>
+                                <form:input class="form-control" path="parcel.weight" type="number" min="1" max="200" />
                             </div>
                         </div>
                         <h5 class="display-7" style="align-content: center"><fmt:message key="route"/></h5>
@@ -59,7 +55,7 @@
                                 <select class="form-select hide-icon" name="cityFrom"
                                         aria-label="Default select example">
                                     <c:forEach var="city" items="${cityList}">
-                                        <option  value="${city.id}" ${city.id == orderForm.cityFrom.id ? 'selected':''}>${locale == 'uk'?
+                                        <option value="${city.id}" ${city.id == orderForm.cityFrom.id ? 'selected':''}>${locale == 'uk'?
                                                 city.nameUk : city.name}</option>
                                     </c:forEach>
                                 </select>

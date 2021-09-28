@@ -23,14 +23,13 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     private final OrderService orderService;
 
-    private final UserService userService;
 
     @Autowired
     public ReceiptServiceImpl(ReceiptRepository receiptRepository,
-                              OrderService orderService, UserService userService) {
+                              OrderService orderService) {
         this.receiptRepository = receiptRepository;
         this.orderService = orderService;
-        this.userService = userService;
+
     }
 
     @Override
@@ -80,6 +79,4 @@ public class ReceiptServiceImpl implements ReceiptService {
         user.setBalance(userSender.getBalance());
         return true;
     }
-
-
 }

@@ -8,6 +8,7 @@ import ua.training.delivery.entity.*;
 import ua.training.delivery.repository.OrderRepository;
 import ua.training.delivery.repository.TariffRepository;
 import ua.training.delivery.service.OrderService;
+import static ua.training.delivery.constants.Constants.EARTH_RADIUS;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
@@ -80,7 +81,6 @@ public class OrderServiceImpl implements OrderService {
         float lng1 = cityFrom.getLongitude();
         float lng2 = cityTo.getLongitude();
 
-        double earthRadius = 6371000; //meters
         double dLat = Math.toRadians(lat2 - lat1);
         double dLng = Math.toRadians(lng2 - lng1);
         double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -88,6 +88,6 @@ public class OrderServiceImpl implements OrderService {
                         Math.sin(dLng / 2) * Math.sin(dLng / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        return (float) (earthRadius * c) / 1000;
+        return (float) (EARTH_RADIUS * c) / 1000;
     }
 }
