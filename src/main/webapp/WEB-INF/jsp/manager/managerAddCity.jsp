@@ -73,7 +73,7 @@
                             <c:if test="${coordinateError != null}">
                                 <div class="alert alert-danger d-flex align-items-center" role="alert">
                                     <div>
-                                        <fmt:message key="coordinateError"/>${coordinateError}!
+                                        <fmt:message key="coordinateError"/> <fmt:message key="${coordinateError}"/>!
                                     </div>
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
@@ -115,9 +115,17 @@
 
                                 </div>
                             </div>
-
                             <hr>
                         </div>
+
+                        <c:if test="${cityExitsError != null}">
+                            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                <div>
+                                    <fmt:message key="cityExitsError"/> ${cityExitsError}!
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </c:if>
                     </form:form>
                     <button class="btn btn-primary" form="form2" type="submit" name="action" value="add">
                         <fmt:message key="submit"/>

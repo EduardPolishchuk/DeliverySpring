@@ -11,15 +11,16 @@
 </head>
 <body>
 <jsp:include page="../common/header2.jsp"/>
-<h2 class="display-3 text-center" style="color: #000102; background-color: rgba(255,238,231,0.87)"><fmt:message key="deliveryService"/></h2>
+<h2 class="display-3 text-center" style="color: #000102; background-color: rgba(255,238,231,0.87)"><fmt:message
+        key="deliveryService"/></h2>
 <div class="container justify-content-center w-75 ">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-1 g-3">
         <div class="col ">
             <div class="card shadow-sm">
                 <div class="card-body">
 
-                    <form:form id="form2" method="post" modelAttribute="orderForm"
-                               action="${pageContext.request.contextPath}/user/">
+                    <form:form id="form2" method="get" modelAttribute="orderForm"
+                               action="${pageContext.request.contextPath}/user/order_action">
                         <h4 class="display-6 text-center" style="align-content: center"><fmt:message
                                 key="makeOrder"/></h4>
                         <h5 class="display-7" style="align-content: center"><fmt:message key="sender"/></h5>
@@ -39,8 +40,7 @@
                         <div class="row g-3 mb-3">
                             <div class="col">
                                 <label class="form-label"><fmt:message key="length"/>, <fmt:message key="mm"/></label>
-                                <form:input class="form-control" path="parcel.length" type="number" min="1" max="1000"
-                                            value="${parcel.length}"/>
+                                <form:input class="form-control" path="parcel.length" type="number" min="1" max="1000"/>
                             </div>
                             <div class="col">
                                 <label class="form-label"><fmt:message key="width"/>, <fmt:message key="mm"/></label>
@@ -73,7 +73,7 @@
                                 <select class="form-select hide-icon" name="cityFrom"
                                         aria-label="Default select example">
                                     <c:forEach var="city" items="${cityList}">
-                                        <option  value="${city.id}" ${city.id == orderForm.cityFrom.id ? 'selected':''}>${locale == 'uk'?
+                                        <option value="${city.id}" ${city.id == orderForm.cityFrom.id ? 'selected':''}>${locale == 'uk'?
                                                 city.nameUk : city.name}</option>
                                     </c:forEach>
                                 </select>

@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.OrderStatus;
+import ua.training.delivery.entity.Parcel;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.CityService;
 import ua.training.delivery.service.OrderService;
@@ -21,29 +22,33 @@ import java.time.LocalDate;
 @RequestMapping("/user/")
 public class MakeOrderController {
 
-    @Autowired
-    private CityService cityService;
+    private final CityService cityService;
+
+    private final TariffService tariffService;
+
+    private final OrderService orderService;
 
     @Autowired
-    private TariffService tariffService;
-
-    @Autowired
-    private OrderService orderService;
+    public MakeOrderController(CityService cityService, TariffService tariffService,
+                               OrderService orderService) {
+        this.cityService = cityService;
+        this.tariffService = tariffService;
+        this.orderService = orderService;
+    }
 
     @GetMapping
     public String mainPage(Model model) {
-        model.addAttribute("orderForm", new Order());
+        model.addAttribute("orderForm", Order.builder().parcel(new Parcel()).build());
         model.addAttribute("cityList", cityService.findAll());
         model.addAttribute("tariff", tariffService.getTariff());
         return "user/userMain";
     }
 
-    @PostMapping
+    @GetMapping("/order_action")
     public String userOrderAction(@ModelAttribute("orderForm") @Valid Order orderFrom, BindingResult bindingResult,
                                   Model model, HttpSession session, @RequestParam() String action) {
 
         if (bindingResult.hasErrors()) {
-
             return "/error";
         }
         if (orderFrom.getCityFrom().equals(orderFrom.getCityTo())) {
