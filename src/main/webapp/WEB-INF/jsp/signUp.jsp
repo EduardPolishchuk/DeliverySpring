@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="locale/resources"/>
 <html>
@@ -20,26 +21,27 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h3 class="display-5"><fmt:message key="enterYourData"/></h3>
-                        <form method="post"  action="${pageContext.request.contextPath}/signUp/up">
+                        <form:form modelAttribute="userForm" method="post"  action="${pageContext.request.contextPath}/signUp/up">
                             <div class="mb-2 ">
                                 <label  class="form-label"><fmt:message key="userName"/> </label>
-                                <input type="text" class="form-control" name="login" value="${param.login}" required>
+                                <form:input type="text" path="login" class="form-control" name="login"
+                                            value="${param.login}"  />
                             </div>
                             <div class="mb-2 ">
                                 <label  class="form-label"><fmt:message key="email" /></label>
-                                <input type="text" class="form-control" name="email" value="${param.email}" required>
+                                <form:input type="text" class="form-control" name="email" value="${param.email}"  path="email"/>
                             </div>
                             <div class="mb-2 ">
                                 <label  class="form-label"><fmt:message key="firstName"/> </label>
-                                <input type="text" class="form-control" name="firstName" value="${param.firstName}" required>
+                                <form:input type="text" class="form-control" name="firstName" value="${param.firstName}" path="firstName" />
                             </div>
                             <div class="mb-2 ">
                                 <label  class="form-label"><fmt:message key="lastName"/></label>
-                                <input type="text" class="form-control" name="lastName" value="${param.lastName}" required>
+                                <form:input type="text" class="form-control" name="lastName" value="${param.lastName}" path="lastName" />
                             </div>
                             <div class="mb-2">
                                 <label for="exampleInputPassword1" class="form-label"><fmt:message key="password"/> </label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
+                                <form:input type="password" class="form-control" id="exampleInputPassword1" name="password" path="password" />
                             </div>
                             <c:if test="${error != null}">
                                 <c:choose>
@@ -54,10 +56,9 @@
                                         </div>
                                     </c:otherwise>
                                 </c:choose>
-                                ${pageContext.session.removeAttribute('error')}
                             </c:if>
                             <button type="submit" class="btn btn-primary"><fmt:message key="submit"/></button>
-                        </form>
+                        </form:form>
                     </div>
                 </div>
             </div>

@@ -105,6 +105,8 @@ public class ManagerController {
         longitude = "east".equals(lngParam) ? longitude : -1 * longitude;
 
         if (bindingResult.hasErrors()) {
+            bindingResult.getFieldErrors()
+                    .forEach(s -> model.addAttribute("nameError", s.getRejectedValue()));
             model.addAttribute("errro", "errror");
             notValid = true;
         }

@@ -5,33 +5,35 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import static ua.training.delivery.constants.Constants.CITY_REGEX_EN;
+import static ua.training.delivery.constants.Constants.CITY_REGEX_UK;
+
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 
 @Entity
-@Table( name = "city")
+@Table(name = "city")
 public class City {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
-//    @Pattern(regexp = "^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\\d.-]{1,19}$")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Pattern(regexp = "^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\\\\d.-]{1,19}$")
+
+    @Pattern(regexp = CITY_REGEX_EN)
     @Column(name = "name", unique = true)
     private String name;
 
 
-    @NotEmpty
+    @Pattern(regexp = CITY_REGEX_UK)
     @Column(name = "name_uk", unique = true)
     private String nameUk;
 
 
     @Column(name = "longitude")
     private float longitude;
-
 
 
     @Column(name = "latitude")
