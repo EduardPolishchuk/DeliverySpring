@@ -2,6 +2,7 @@ package ua.training.delivery.controller.user;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,17 +23,24 @@ public class ProfileUpdateController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping
     public String profilePage(HttpSession session, Model model) {
         User user = (User) session.getAttribute("userProfile");
+        System.out.println(user);
         model.addAttribute("userForm", user);
         return "user/userprofile";
     }
 
     @PostMapping("/update")
-    public String updateProfile(@ModelAttribute @Valid User userForm, BindingResult bindingResult) {
-
-
+    public String updateProfile(HttpSession session,
+                                @ModelAttribute User userForm, BindingResult bindingResult) {
+        userForm.setPassword(passwordEncoder.encode(userForm.getPassword()));
+        userService.update(userForm);
+        userForm.setPassword("");
+        session.setAttribute("userProfile", userForm);
         return "redirect:/user/profile/";
     }
 }

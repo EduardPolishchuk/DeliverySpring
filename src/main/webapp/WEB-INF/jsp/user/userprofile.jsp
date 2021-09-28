@@ -22,27 +22,31 @@
                 <div class="card-body">
                     <form:form modelAttribute="userForm" method="post"
                                action="${pageContext.request.contextPath}/user/profile/update">
+                        <form:hidden path="login" value="${userForm.login}" />
+                        <form:hidden path="id" value="${userForm.id}" />
+                        <form:hidden path="role" value="${userForm.role}"/>
+                        <form:hidden path="balance" value="${userForm.balance}"/>
                         <div class="mb-3 ">
                             <label class="form-label"><fmt:message key="email"/></label>
-                            <form:input type="text" class="form-control" name="email" value="${userForm.email}"
+                            <form:input type="text" class="form-control"  value="${userForm.email}"
                                         path="email"
                                         disabled="${empty param.edit}"/>
                         </div>
                         <div class="mb-3 ">
                             <label class="form-label"><fmt:message key="firstName"/></label>
-                            <form:input type="text" class="form-control" name="firstName" value="${userForm.firstName}"
+                            <form:input type="text" class="form-control"  value="${userForm.firstName}"
                                         path="firstName"
                                         disabled="${empty param.edit}"/>
                         </div>
                         <div class="mb-3 ">
                             <label class="form-label"><fmt:message key="lastName"/></label>
-                            <form:input type="text" class="form-control" name="lastName" value="${userForm.lastName}"
+                            <form:input type="text" class="form-control" value="${userForm.lastName}"
                                         path="lastName"
                                         disabled="${empty param.edit}"/>
                         </div>
                         <div class="mb-3">
                             <label class="form-label"><fmt:message key="password"/></label>
-                            <form:input type="password" class="form-control" name="password"
+                            <form:input type="password" class="form-control"
                                         path="password" disabled="${empty param.edit}"/>
                         </div>
                         <c:if test="${error != null}">
