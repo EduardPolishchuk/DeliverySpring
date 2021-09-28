@@ -25,7 +25,8 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public boolean create(City city) {
-        return false;
+        cityRepository.save(city);
+        return true;
     }
 
     @Override
@@ -35,6 +36,6 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public float convertToDecimalDegrees(float deg, float min, float sec) {
-        return 0;
+        return deg + min / 60 + sec / 3600;
     }
 }

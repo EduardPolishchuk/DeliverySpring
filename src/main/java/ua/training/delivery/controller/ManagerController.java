@@ -1,8 +1,10 @@
 package ua.training.delivery.controller;
 
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,10 +17,7 @@ import ua.training.delivery.entity.City;
 import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.OrderStatus;
 import ua.training.delivery.entity.Role;
-import ua.training.delivery.service.OrderService;
-import ua.training.delivery.service.ReceiptService;
-import ua.training.delivery.service.TariffService;
-import ua.training.delivery.service.UserService;
+import ua.training.delivery.service.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
@@ -28,6 +27,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/manager")
 public class ManagerController {
+    private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
     private final OrderService orderService;
 
@@ -37,13 +37,17 @@ public class ManagerController {
 
     private final TariffService tariffService;
 
+    private final CityService cityService;
+
     @Autowired
-    public ManagerController(OrderService orderService, ReceiptService receiptService,
-                             UserService userService, TariffService tariffService) {
+    public ManagerController(OrderService orderService,
+                             ReceiptService receiptService, UserService userService,
+                             TariffService tariffService, CityService cityService) {
         this.orderService = orderService;
         this.receiptService = receiptService;
         this.userService = userService;
         this.tariffService = tariffService;
+        this.cityService = cityService;
     }
 
     @GetMapping("/order_list")
@@ -89,14 +93,39 @@ public class ManagerController {
     }
 
     @PostMapping("/add_city")
-    public String addCityPost(@ModelAttribute @Valid City cityForm, BindingResult bindingResult) {
+    public String addCityPost(@ModelAttribute @Valid City cityForm, BindingResult bindingResult, Model model,
+                              @RequestParam float lngDeg, @RequestParam float lngMin, @RequestParam float lngSec,
+                              @RequestParam float latDeg, @RequestParam float latMin, @RequestParam float latSec,
+                              @RequestParam String latParam, @RequestParam String lngParam) {
+
+        boolean notValid = false;
+        float latitude = cityService.convertToDecimalDegrees(latDeg, latMin, latSec);
+        float longitude = cityService.convertToDecimalDegrees(lngDeg, lngMin, lngSec);
+        latitude = "north".equals(latParam) ? latitude : -1 * latitude;
+        longitude = "east".equals(lngParam) ? longitude : -1 * longitude;
 
         if (bindingResult.hasErrors()) {
-//todo City_add
+            model.addAttribute("errro", "errror");
+            notValid = true;
+        }
+        if (latitude > 90 || longitude > 90) {
+            model.addAttribute("coordinateError", "coordinateError");
+            notValid = true;
+        }
+        if (notValid) {
+            return "manager/managerAddCity";
+        }
+        cityForm.setLatitude(latitude);
+        cityForm.setLongitude(longitude);
+        try {
+            cityService.create(cityForm);
+            return "redirect:/success";
+        } catch (DataIntegrityViolationException e) {
+            model.addAttribute("cityExitsError", cityForm.getName());
+            logger.error("City: " + cityForm.getName() + " already exists!");
             return "manager/managerAddCity";
         }
 
-        return "redirect:/success";
     }
 
     @PostMapping("/send_receipt")

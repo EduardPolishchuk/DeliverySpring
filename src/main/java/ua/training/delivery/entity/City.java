@@ -20,22 +20,20 @@ public class City {
     private Long id;
 
 //    @Pattern(regexp = "^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\\\\d.-]{1,19}$")
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
 
     @NotEmpty
-    @Column(name = "name_uk")
+    @Column(name = "name_uk", unique = true)
     private String nameUk;
 
-//    @Min(value = -90)
-//    @Max(value = 90)
+
     @Column(name = "longitude")
     private float longitude;
 
 
-//    @Min(value = -90)
-//    @Max(value = 90)
+
     @Column(name = "latitude")
     private float latitude;
 
