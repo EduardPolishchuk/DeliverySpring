@@ -32,8 +32,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public boolean create(User user) {
-        if (userRepository.existsByLoginAndEmail(user.getLogin(), user.getEmail()))
+        if (userRepository.existsByLogin(user.getLogin())
+                || userRepository.existsByEmail(user.getEmail())){
             return false;
+        }
         userRepository.save(user);
         return true;
     }

@@ -38,7 +38,7 @@ public class UserServiceImplTest {
         Assert.assertTrue(isCreated);
         verify(userRepository, times(1)).save(user);
         verify(userRepository, times(1))
-                .existsByLoginAndEmail(user.getLogin(), user.getEmail());
+                .existsByLogin(user.getLogin());
     }
 
     @Test
@@ -48,11 +48,11 @@ public class UserServiceImplTest {
         user.setEmail("email@email.ua");
         Mockito.doReturn(true)
                 .when(userRepository)
-                .existsByLoginAndEmail("Login", "email@email.ua");
+                .existsByLogin("Login");
         boolean isCreated = userService.create(user);
         verify(userRepository, times(0)).save(user);
         verify(userRepository, times(1))
-                .existsByLoginAndEmail(user.getLogin(), user.getEmail());
+                .existsByLogin(user.getLogin());
 
         Assert.assertFalse(isCreated);
 
