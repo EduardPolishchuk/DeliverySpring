@@ -33,24 +33,26 @@ public class UserServiceImplTest {
     public void createTest() {
         User user = new User();
         user.setLogin("Login");
+        user.setLogin("email@email.ua");
         boolean isCreated = userService.create(user);
         Assert.assertTrue(isCreated);
         verify(userRepository, times(1)).save(user);
         verify(userRepository, times(1))
-                .existsByLogin(user.getLogin());
+                .existsByLoginAndEmail(user.getLogin(), user.getEmail());
     }
 
     @Test
     public void createFailTest() {
         User user = new User();
         user.setLogin("Login");
+        user.setEmail("email@email.ua");
         Mockito.doReturn(true)
                 .when(userRepository)
-                .existsByLogin("Login");
+                .existsByLoginAndEmail("Login", "email@email.ua");
         boolean isCreated = userService.create(user);
         verify(userRepository, times(0)).save(user);
         verify(userRepository, times(1))
-                .existsByLogin(user.getLogin());
+                .existsByLoginAndEmail(user.getLogin(), user.getEmail());
 
         Assert.assertFalse(isCreated);
 

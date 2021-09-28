@@ -3,13 +3,9 @@ package ua.training.delivery.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.training.delivery.entity.Order;
-import ua.training.delivery.entity.OrderStatus;
 import ua.training.delivery.entity.Role;
 import ua.training.delivery.entity.User;
-import ua.training.delivery.repository.OrderRepository;
 import ua.training.delivery.repository.UserRepository;
-import ua.training.delivery.service.OrderService;
 import ua.training.delivery.service.UserService;
 
 import java.math.BigDecimal;
@@ -36,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public boolean create(User user) {
-        if (userRepository.existsByLogin(user.getLogin()))
+        if (userRepository.existsByLoginAndEmail(user.getLogin(), user.getEmail()))
             return false;
         userRepository.save(user);
         return true;

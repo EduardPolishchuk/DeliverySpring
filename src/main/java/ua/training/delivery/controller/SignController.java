@@ -19,11 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ua.training.delivery.entity.Role;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.UserService;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
+import static ua.training.delivery.constants.Constants.*;
 
 @Controller
 @RequestMapping(value = "/signUp")
@@ -41,20 +40,20 @@ public class SignController {
 
     @GetMapping
     public String getSignPage( Model model) {
-        model.addAttribute("userForm", new User());
+        model.addAttribute(USER_FORM, new User());
         return "signUp";
     }
 
     @PostMapping()
     public String signUp(HttpServletRequest request, HttpSession session,
-                         @ModelAttribute("userForm") @Valid User user,
+                         @ModelAttribute(USER_FORM) @Valid User user,
                          BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             StringBuilder sb = new StringBuilder();
             bindingResult.getFieldErrors().stream()
-                    .filter(er -> !er.getObjectName().equals("password"))
+                    .filter(er -> !er.getObjectName().equals(PASSWORD))
                     .forEach(er -> sb.append(er.getRejectedValue()).append(" "));
-            model.addAttribute("error", sb.toString());
+            model.addAttribute(ERROR, sb.toString());
             return "signUp";
         }
         user.setRole(Role.USER);
@@ -64,7 +63,8 @@ public class SignController {
 
         if (!userService.create(user)) {
             model.addAttribute("error_user", true);
-            return "redirect:/sign";
+            user.setPassword("");
+            return "signUp";
         }
         authWithAuthManager(request, user.getLogin(), password);
         session.setAttribute("userProfile", user);

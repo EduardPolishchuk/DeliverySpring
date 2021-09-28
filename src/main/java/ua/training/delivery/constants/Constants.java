@@ -33,4 +33,6 @@ public interface Constants {
     String MAKE_ORDER = "makeOrder";
     String CALCULATED_VALUE = "calculatedValue";
     String PASSWORD = "password";
+    String RECEIPT_LIST = "receiptList";
+    String RECEIPT_ID = "receiptID";
 }

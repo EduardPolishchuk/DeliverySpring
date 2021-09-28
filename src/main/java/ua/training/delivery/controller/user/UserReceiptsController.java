@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.ReceiptService;
-
 import javax.servlet.http.HttpSession;
+import static ua.training.delivery.constants.Constants.*;
 
 @Controller
 @RequestMapping("/user")
@@ -29,15 +29,15 @@ public class UserReceiptsController {
 
     @GetMapping("/receipts")
     public String receiptListPage(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("userProfile");
-        model.addAttribute("receiptList", receiptService.findUserReceipts(user, false));
+        User user = (User) session.getAttribute(USER_PROFILE);
+        model.addAttribute(RECEIPT_LIST, receiptService.findUserReceipts(user, false));
         return "user/userReceipts";
     }
 
 
     @PostMapping("/pay_receipt")
-    public String payReceipt(HttpSession session, @RequestParam("receiptID") Long receiptId) {
-        User user = (User) session.getAttribute("userProfile");
+    public String payReceipt(HttpSession session, @RequestParam(RECEIPT_ID) Long receiptId) {
+        User user = (User) session.getAttribute(USER_PROFILE);
         logger.info("Receipt id: " + receiptId + " was paid by user: " + user.getLogin());
         return receiptService.userPaysReceipt(user, receiptId) ?
                 "redirect:/success" : "redirect:/insufficientFundsError";

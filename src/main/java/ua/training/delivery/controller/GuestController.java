@@ -14,9 +14,11 @@ import ua.training.delivery.entity.Parcel;
 import ua.training.delivery.service.CityService;
 import ua.training.delivery.service.OrderService;
 import ua.training.delivery.service.TariffService;
-
 import javax.validation.Valid;
 import java.util.Collection;
+import static ua.training.delivery.constants.Constants.*;
+
+
 
 @Controller
 public class GuestController {
@@ -46,9 +48,9 @@ public class GuestController {
                 return "redirect:/manager/order_list";
             }
         }
-        model.addAttribute("orderForm", Order.builder().parcel(new Parcel()).build());
-        model.addAttribute("cityList", cityServiceImpl.findAll());
-        model.addAttribute("tariff", tariffServiceImpl.getTariff());
+        model.addAttribute(ORDER_FORM, Order.builder().parcel(new Parcel()).build());
+        model.addAttribute(CITY_LIST, cityServiceImpl.findAll());
+        model.addAttribute(TARIFF, tariffServiceImpl.getTariff());
 
         return "index";
     }
@@ -61,12 +63,12 @@ public class GuestController {
             return "/error";
         }
         if (orderForm.getCityFrom().equals(orderForm.getCityTo())) {
-            model.addAttribute("error", "sameCity");
+            model.addAttribute(ERROR, SAME_CITY);
         } else {
-            model.addAttribute("calculatedValue", orderService.calculateOrderPrice(orderForm));
+            model.addAttribute(CALCULATED_VALUE, orderService.calculateOrderPrice(orderForm));
         }
-        model.addAttribute("cityList", cityServiceImpl.findAll());
-        model.addAttribute("tariff", tariffServiceImpl.getTariff());
+        model.addAttribute(CITY_LIST, cityServiceImpl.findAll());
+        model.addAttribute(TARIFF, tariffServiceImpl.getTariff());
         return "index";
     }
 }
