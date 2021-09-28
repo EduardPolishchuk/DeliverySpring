@@ -1,11 +1,16 @@
 package ua.training.delivery.controller.user;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.OrderStatus;
 import ua.training.delivery.entity.Parcel;
@@ -21,6 +26,8 @@ import java.time.LocalDate;
 @Controller
 @RequestMapping("/user/")
 public class MakeOrderController {
+
+    private static final Logger logger = LoggerFactory.getLogger(MakeOrderController.class);
 
     private final CityService cityService;
 
@@ -66,6 +73,7 @@ public class MakeOrderController {
                 orderFrom.getParcel().setType("Other");
             }
             orderService.create(orderFrom);
+            logger.info("Order was made, ID: " + orderFrom.getId());
             return "redirect:/success";
         }
         model.addAttribute("calculatedValue", orderService.calculateOrderPrice(orderFrom));

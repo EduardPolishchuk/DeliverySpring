@@ -1,6 +1,8 @@
 package ua.training.delivery.controller.user;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +19,13 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/user")
 public class UserReceiptsController {
 
+    public static final Logger logger = LoggerFactory.getLogger(UserReceiptsController.class);
+    private final ReceiptService receiptService;
+
     @Autowired
-    private ReceiptService receiptService;
+    public UserReceiptsController(ReceiptService receiptService) {
+        this.receiptService = receiptService;
+    }
 
     @GetMapping("/receipts")
     public String receiptListPage(Model model, HttpSession session) {
@@ -31,7 +38,7 @@ public class UserReceiptsController {
     @PostMapping("/pay_receipt")
     public String payReceipt(HttpSession session, @RequestParam("receiptID") Long receiptId) {
         User user = (User) session.getAttribute("userProfile");
-
+        logger.info("Receipt id: " + receiptId + " was paid by user: " + user.getLogin());
         return receiptService.userPaysReceipt(user, receiptId) ?
                 "redirect:/success" : "redirect:/insufficientFundsError";
     }
