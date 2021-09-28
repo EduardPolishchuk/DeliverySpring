@@ -25,6 +25,7 @@
                             <div class="col w-75">
                                 <label class="form-label"><fmt:message key="name"/> </label>
                                 <input type="text" class="form-control" name="name" value="${param.name}" required>
+
                             </div>
                             <div class="col w-75">
                                 <label class="form-label"><fmt:message key="nameUk"/> </label>
