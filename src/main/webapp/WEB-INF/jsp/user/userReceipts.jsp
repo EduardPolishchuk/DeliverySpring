@@ -68,7 +68,7 @@
 
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pay a receipt</h5>
+                <h5 class="modal-title" id="exampleModalLabel"><fmt:message key="pay"/></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -77,8 +77,6 @@
                     </div>
                     <div class="mb-3">
                         <input type="hidden" class="form-control" id="exId-name" name="receiptID">
-<%--                        <input type="hidden" class="form-control" id="price" name="price">--%>
-<%--                        <input type="hidden" class="form-control" id="orderId" name="orderId">--%>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary"><fmt:message key="confirm"/></button>

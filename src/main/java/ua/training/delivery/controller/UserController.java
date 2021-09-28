@@ -49,41 +49,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public String mainPage(Model model) {
-        model.addAttribute("orderForm", new Order());
-        model.addAttribute("cityList", cityService.findAll());
-        model.addAttribute("tariff", tariffService.getTariff());
-        return "user/userMain";
-    }
-
-
-    @GetMapping("/orders")
-    public String orderListPage(HttpSession session, Model model, @RequestParam(defaultValue = "id") String sortBy,
-                                @RequestParam Optional<String> status,
-                                @RequestParam("page") Optional<Integer> pageNum) {
-
-        User user = (User) session.getAttribute("userProfile");
-        Page<Order> page;
-        if ((sortBy.contains("cityTo.name") || sortBy.contains("cityFrom.name"))) {
-            String locale = (String) session.getAttribute("locale");
-            sortBy = "uk".equals(locale) ? sortBy.concat("Uk") : sortBy;
-        }
-        Sort.Direction direction = sortBy.contains("Desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        Pageable pageable = PageRequest.of(pageNum.orElse(0), 4,
-                Sort.by(direction, sortBy.replace("Desc", "")));
-        if (status.isPresent() && !status.get().isEmpty()) {
-            page = orderService.findUserOrdersWithStatus(user, pageable, OrderStatus.valueOf(status.get()));
-        } else {
-            page = orderService.findUserOrders(user, pageable);
-        }
-
-        model.addAttribute("page", page);
-        model.addAttribute("currentDate", LocalDate.now());
-        model.addAttribute("orderStatuses", OrderStatus.values());
-        return "user/userOrders";
-    }
-
     @GetMapping("/receipts")
     public String receiptListPage(Model model, HttpSession session) {
         User user = (User) session.getAttribute("userProfile");
@@ -91,36 +56,7 @@ public class UserController {
         return "user/userReceipts";
     }
 
-    @PostMapping
-    public String userOrderAction(@ModelAttribute("orderForm") @Valid Order orderFrom, BindingResult bindingResult,
-                                  Model model, HttpSession session, @RequestParam() String action) {
 
-        if (bindingResult.hasErrors()) {
-
-            return "/error";
-        }
-        if (orderFrom.getCityFrom().equals(orderFrom.getCityTo())) {
-            model.addAttribute("error", "sameCity");
-            model.addAttribute("cityList", cityService.findAll());
-            model.addAttribute("tariff", tariffService.getTariff());
-            return "/user/userMain";
-        }
-        if ("makeOrder".equals(action)) {
-            User user = (User) session.getAttribute("userProfile");
-            orderFrom.setUserSender(user);
-            orderFrom.setStatus(OrderStatus.WAITING_FOR_CONFIRM);
-            orderFrom.setRequestDate(LocalDate.now());
-            if (orderFrom.getParcel().getType() == null || orderFrom.getParcel().getType().isEmpty()) {
-                orderFrom.getParcel().setType("Other");
-            }
-            orderService.create(orderFrom);
-            return "redirect:/success";
-        }
-        model.addAttribute("calculatedValue", orderService.calculateOrderPrice(orderFrom));
-        model.addAttribute("cityList", cityService.findAll());
-        model.addAttribute("tariff", tariffService.getTariff());
-        return "user/userMain";
-    }
 
     @PostMapping("/change_balance")
     public String changeBalance(HttpSession session, @RequestParam("amount") BigDecimal amount) {
