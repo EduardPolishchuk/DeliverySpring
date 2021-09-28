@@ -69,14 +69,4 @@ public class GuestController {
         model.addAttribute("tariff", tariffServiceImpl.getTariff());
         return "index";
     }
-
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping("/success")
-    public String success() {
-        return "success";
-    }
 }
