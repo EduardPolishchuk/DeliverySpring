@@ -18,6 +18,7 @@ import ua.training.delivery.service.OrderService;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
+import static ua.training.delivery.constants.Constants.*;
 
 @Controller
 @RequestMapping("/manager")
@@ -32,21 +33,21 @@ public class OrderController {
                                 @RequestParam("page") Optional<Integer> pageNum) {
 
         Page<Order> page;
-        Sort.Direction direction = sortBy.contains("Desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        if ((sortBy.contains("cityTo.name") || sortBy.contains("cityFrom.name"))) {
+        Sort.Direction direction = sortBy.contains(DESC) ? Sort.Direction.DESC : Sort.Direction.ASC;
+        if ((sortBy.contains(CITY_TO_NAME) || sortBy.contains(CITY_FROM_NAME))) {
             String locale = (String) session.getAttribute("locale");
             sortBy = "uk".equals(locale) ? sortBy.concat("Uk") : sortBy;
         }
         Pageable pageable = PageRequest.of(pageNum.orElse(0), 4,
-                Sort.by(direction, sortBy.replace("Desc", "")));
+                Sort.by(direction, sortBy.replace(DESC, "")));
 
         if (status.isPresent() && !status.get().isEmpty()) {
             page = orderService.findOrdersWithStatus(pageable, OrderStatus.valueOf(status.get()));
         } else {
             page = orderService.findAll(pageable);
         }
-        model.addAttribute("page", page);
-        model.addAttribute("orderStatuses", OrderStatus.values());
+        model.addAttribute(PAGE, page);
+        model.addAttribute(ORDER_STATUSES, OrderStatus.values());
         return "manager/managerOrderList";
     }
 
@@ -54,8 +55,8 @@ public class OrderController {
     @GetMapping("/order_details")
     public String orderDetails(Model model, @RequestParam Long orderID) {
         Order order = orderService.findById(orderID).orElseThrow(EntityNotFoundException::new);
-        model.addAttribute("order", order);
-        model.addAttribute("price", orderService.calculateOrderPrice(order));
+        model.addAttribute(ORDER, order);
+        model.addAttribute(PRICE, orderService.calculateOrderPrice(order));
         return "manager/managerOrderDetails";
     }
 }

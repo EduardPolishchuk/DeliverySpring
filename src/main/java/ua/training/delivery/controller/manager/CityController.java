@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.training.delivery.entity.City;
 import ua.training.delivery.service.CityService;
+import static ua.training.delivery.constants.Constants.*;
 
 import javax.validation.Valid;
 
@@ -25,7 +26,7 @@ public class CityController {
 
     @GetMapping("/add_city")
     public String addCityGet(Model model) {
-        model.addAttribute("cityForm", new City());
+        model.addAttribute(CITY_FORM, new City());
         return "manager/managerAddCity";
     }
 
@@ -38,16 +39,16 @@ public class CityController {
         boolean notValid = false;
         float latitude = cityService.convertToDecimalDegrees(latDeg, latMin, latSec);
         float longitude = cityService.convertToDecimalDegrees(lngDeg, lngMin, lngSec);
-        latitude = "north".equals(latParam) ? latitude : -1 * latitude;
-        longitude = "east".equals(lngParam) ? longitude : -1 * longitude;
+        latitude = NORTH.equals(latParam) ? latitude : -1 * latitude;
+        longitude = EAST.equals(lngParam) ? longitude : -1 * longitude;
 
         if (bindingResult.hasErrors()) {
             bindingResult.getFieldErrors()
-                    .forEach(s -> model.addAttribute("nameError", s.getRejectedValue()));
+                    .forEach(s -> model.addAttribute(NAME_ERROR, s.getRejectedValue()));
             notValid = true;
         }
         if (latitude > 90 || longitude > 90) {
-            model.addAttribute("coordinateError", latitude > 90 ? "latitude" : "longitude");
+            model.addAttribute(COORDINATE_ERROR, latitude > 90 ? LATITUDE : LONGITUDE);
             notValid = true;
         }
         if (notValid) {
@@ -60,7 +61,7 @@ public class CityController {
             logger.info("New city was added: " + cityForm.getName());
             return "redirect:/success";
         } catch (DataIntegrityViolationException e) {
-            model.addAttribute("cityExitsError", cityForm.getName() + ", " + cityForm.getNameUk());
+            model.addAttribute(CITY_EXITS_ERROR, cityForm.getName() + ", " + cityForm.getNameUk());
             logger.error("City: " + cityForm.getName() + " already exists!");
             return "manager/managerAddCity";
         }

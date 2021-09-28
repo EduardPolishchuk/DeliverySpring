@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.training.delivery.entity.Role;
 import ua.training.delivery.service.UserService;
+import static ua.training.delivery.constants.Constants.*;
 
 @Controller
 @RequestMapping("/manager/client_list")
@@ -22,7 +23,7 @@ public class ClientController {
 
     @GetMapping
     public String clientList(Model model) {
-        model.addAttribute("clientList", userService.findAllByRole(Role.USER));
+        model.addAttribute(CLIENT_LIST, userService.findAllByRole(Role.USER));
         return "manager/managerClientList";
     }
 }

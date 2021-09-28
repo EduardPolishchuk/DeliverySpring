@@ -14,4 +14,13 @@ public interface Constants {
     String CITY_TO_NAME = "cityTo.name";
     String CITY_FROM_NAME = "cityFrom.name";
     String USER_FORM = "userForm";
+    String CITY_FORM = "cityForm";
+    String NORTH = "north";
+    String EAST = "east";
+    String NAME_ERROR = "nameError";
+    String COORDINATE_ERROR = "coordinateError";
+    String LATITUDE = "latitude";
+    String LONGITUDE = "longitude";
+    String CITY_EXITS_ERROR = "cityExitsError";
+    String CLIENT_LIST = "clientList";
 }
