@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.UserService;
+
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
-import static ua.training.delivery.constants.Constants.*;
+
+import static ua.training.delivery.constants.Constants.AMOUNT;
+import static ua.training.delivery.constants.Constants.USER_PROFILE;
 
 
 @Controller

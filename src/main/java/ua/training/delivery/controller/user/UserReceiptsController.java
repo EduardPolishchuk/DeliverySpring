@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.ReceiptService;
+
 import javax.servlet.http.HttpSession;
+
 import static ua.training.delivery.constants.Constants.*;
 
 @Controller

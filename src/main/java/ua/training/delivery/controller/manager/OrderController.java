@@ -1,7 +1,6 @@
 package ua.training.delivery.controller.manager;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,14 +17,18 @@ import ua.training.delivery.service.OrderService;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
+
 import static ua.training.delivery.constants.Constants.*;
 
 @Controller
 @RequestMapping("/manager")
 public class OrderController {
 
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
+
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @GetMapping("/order_list")
     public String orderListPage(HttpSession session, Model model, @RequestParam(defaultValue = "id") String sortBy,

@@ -10,14 +10,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.training.delivery.entity.Tariff;
 import ua.training.delivery.service.TariffService;
-import static ua.training.delivery.constants.Constants.*;
+
+import static ua.training.delivery.constants.Constants.TARIFF;
 
 @Controller
 @RequestMapping("/manager/tariff")
 public class TariffController {
 
+    private final TariffService tariffService;
+
     @Autowired
-    private TariffService tariffService;
+    public TariffController(TariffService tariffService) {
+        this.tariffService = tariffService;
+    }
 
     @GetMapping
     public String tariffPage(Model model) {

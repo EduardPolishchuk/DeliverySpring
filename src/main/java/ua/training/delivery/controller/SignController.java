@@ -19,27 +19,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ua.training.delivery.entity.Role;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.UserService;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 import static ua.training.delivery.constants.Constants.*;
 
 @Controller
 @RequestMapping(value = "/signUp")
 public class SignController {
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     final static Logger logger = LogManager.getLogger();
 
+    @Autowired
+    public SignController(UserService userService,
+                          AuthenticationManager authenticationManager,
+                          PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @GetMapping
-    public String getSignPage( Model model) {
+    public String getSignPage(Model model) {
         model.addAttribute(USER_FORM, new User());
         return "signUp";
     }

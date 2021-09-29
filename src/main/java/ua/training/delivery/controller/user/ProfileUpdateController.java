@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.UserService;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 
 import static ua.training.delivery.constants.Constants.*;
 
@@ -22,11 +22,14 @@ import static ua.training.delivery.constants.Constants.*;
 @RequestMapping("/user/profile")
 public class ProfileUpdateController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    public ProfileUpdateController(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @GetMapping
     public String profilePage(HttpSession session, Model model) {
@@ -38,14 +41,14 @@ public class ProfileUpdateController {
     @PostMapping("/update")
     public String updateProfile(HttpSession session, Model model,
                                 @ModelAttribute(USER_FORM) @Valid User userForm, BindingResult bindingResult) {
-       if(bindingResult.hasErrors()){
-           StringBuilder sb = new StringBuilder();
-           bindingResult.getFieldErrors().stream()
-                   .filter(er -> !er.getObjectName().equals(PASSWORD))
-                   .forEach(er -> sb.append(er.getRejectedValue()).append(" "));
-           model.addAttribute(ERROR, sb.toString());
-           return "user/userProfile";
-       }
+        if (bindingResult.hasErrors()) {
+            StringBuilder sb = new StringBuilder();
+            bindingResult.getFieldErrors().stream()
+                    .filter(er -> !er.getObjectName().equals(PASSWORD))
+                    .forEach(er -> sb.append(er.getRejectedValue()).append(" "));
+            model.addAttribute(ERROR, sb.toString());
+            return "user/userProfile";
+        }
         userForm.setPassword(passwordEncoder.encode(userForm.getPassword()));
         userService.update(userForm);
         userForm.setPassword("");

@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.training.delivery.entity.Role;
 import ua.training.delivery.service.UserService;
-import static ua.training.delivery.constants.Constants.*;
+
+import static ua.training.delivery.constants.Constants.CLIENT_LIST;
 
 @Controller
 @RequestMapping("/manager/client_list")

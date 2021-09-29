@@ -14,10 +14,11 @@ import ua.training.delivery.entity.Parcel;
 import ua.training.delivery.service.CityService;
 import ua.training.delivery.service.OrderService;
 import ua.training.delivery.service.TariffService;
+
 import javax.validation.Valid;
 import java.util.Collection;
-import static ua.training.delivery.constants.Constants.*;
 
+import static ua.training.delivery.constants.Constants.*;
 
 
 @Controller

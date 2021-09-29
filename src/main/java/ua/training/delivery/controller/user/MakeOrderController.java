@@ -18,9 +18,11 @@ import ua.training.delivery.entity.User;
 import ua.training.delivery.service.CityService;
 import ua.training.delivery.service.OrderService;
 import ua.training.delivery.service.TariffService;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDate;
+
 import static ua.training.delivery.constants.Constants.*;
 
 

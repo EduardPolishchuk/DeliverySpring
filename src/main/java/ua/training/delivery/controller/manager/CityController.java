@@ -11,18 +11,23 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.training.delivery.entity.City;
 import ua.training.delivery.service.CityService;
-import static ua.training.delivery.constants.Constants.*;
 
 import javax.validation.Valid;
+
+import static ua.training.delivery.constants.Constants.*;
 
 @Controller
 @RequestMapping("/manager")
 public class CityController {
 
-    @Autowired
-    private CityService cityService;
+    private final CityService cityService;
 
     private static final Logger logger = LoggerFactory.getLogger(CityController.class);
+
+    @Autowired
+    public CityController(CityService cityService) {
+        this.cityService = cityService;
+    }
 
     @GetMapping("/add_city")
     public String addCityGet(Model model) {

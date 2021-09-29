@@ -15,12 +15,13 @@ import ua.training.delivery.entity.Order;
 import ua.training.delivery.entity.OrderStatus;
 import ua.training.delivery.entity.User;
 import ua.training.delivery.service.OrderService;
-import static ua.training.delivery.constants.Constants.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.Optional;
+
+import static ua.training.delivery.constants.Constants.*;
 
 @Controller
 @RequestMapping("/user")
@@ -43,6 +44,7 @@ public class UserOrdersController {
         Sort.Direction direction = sortBy.contains(DESC) ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(pageNum.orElse(0), 4,
                 Sort.by(direction, sortBy.replace(DESC, "")));
+
         if (status.isPresent() && !status.get().isEmpty()) {
             page = orderService.findUserOrdersWithStatus(user, pageable, OrderStatus.valueOf(status.get()));
         } else {
@@ -59,7 +61,7 @@ public class UserOrdersController {
     public String orderViewPage(@RequestParam long orderID, Model model) {
         Order order = orderService.findById(orderID).orElseThrow(EntityNotFoundException::new);
         model.addAttribute(ORDER, order);
-        model.addAttribute(PRICE,orderService.calculateOrderPrice(order));
+        model.addAttribute(PRICE, orderService.calculateOrderPrice(order));
         return "user/userOrderView";
     }
 }

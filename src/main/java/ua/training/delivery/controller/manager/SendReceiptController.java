@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.training.delivery.service.ReceiptService;
-import static ua.training.delivery.constants.Constants.*;
+
+import static ua.training.delivery.constants.Constants.ORDER_ID;
 
 @Controller
 @RequestMapping("/manager/send_receipt")
