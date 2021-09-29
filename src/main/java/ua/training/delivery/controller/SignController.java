@@ -75,7 +75,8 @@ public class SignController {
             return "signUp";
         }
         authWithAuthManager(request, user.getLogin(), password);
-        session.setAttribute("userProfile", user);
+        user.setPassword("");
+        session.setAttribute(USER_PROFILE, user);
         logger.info("create user with id = " + user.getId());
 
         return "redirect:/user/";

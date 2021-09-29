@@ -75,16 +75,16 @@
                         <hr>
                         <h3 class="display-4">${price} <fmt:message key="uah"/></h3>
                         ${price = null}
-                        <c:if test="${order.status eq 'WAITING_FOR_CONFIRM'}">
-                            <form method="post"
-                                  action="${pageContext.request.contextPath}/manager/send_receipt">
-                                <button name="orderID" value="${order.id}" type="submit"
-                                        class="btn btn-sm btn-outline-secondary">
-                                    <fmt:message key="sendReceipt"/>
-                                </button>
-                            </form>
-                        </c:if>
                     </form>
+                    <c:if test="${order.status eq 'WAITING_FOR_CONFIRM'}">
+                        <form method="post"
+                              action="${pageContext.request.contextPath}/manager/send_receipt">
+                            <button name="orderID" value="${order.id}" type="submit"
+                                    class="btn btn-sm btn-outline-secondary">
+                                <fmt:message key="sendReceipt"/>
+                            </button>
+                        </form>
+                    </c:if>
                 </div>
             </div>
         </div>

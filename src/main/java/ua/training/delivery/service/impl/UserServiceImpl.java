@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
                 || userRepository.existsByEmail(user.getEmail())){
             return false;
         }
-        user.setBalance(BigDecimal.valueOf(0));
+        user.setBalance(BigDecimal.valueOf(0.0));
         userRepository.save(user);
         return true;
     }
