@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface ReceiptService {
 
-    Optional<Receipt> findById(long id);
-
     boolean create(Long orderID);
 
     Receipt update(Receipt receipt);

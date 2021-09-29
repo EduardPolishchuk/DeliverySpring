@@ -10,11 +10,9 @@ import ua.training.delivery.entity.User;
 import ua.training.delivery.repository.ReceiptRepository;
 import ua.training.delivery.service.OrderService;
 import ua.training.delivery.service.ReceiptService;
-import ua.training.delivery.service.UserService;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ReceiptServiceImpl implements ReceiptService {
@@ -30,11 +28,6 @@ public class ReceiptServiceImpl implements ReceiptService {
         this.receiptRepository = receiptRepository;
         this.orderService = orderService;
 
-    }
-
-    @Override
-    public Optional<Receipt> findById(long id) {
-        return receiptRepository.findById(id);
     }
 
     @Override
@@ -64,11 +57,11 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     @Transactional
-    public boolean userPaysReceipt(User user,Long receiptId) {
+    public boolean userPaysReceipt(User user, Long receiptId) {
         Receipt receipt = receiptRepository.findById(receiptId).get();
         Order order = receipt.getOrder();
         User userSender = order.getUserSender();
-        if(receipt.getPrice().doubleValue() > userSender.getBalance().doubleValue()){
+        if (receipt.getPrice().doubleValue() > userSender.getBalance().doubleValue()) {
             return false;
         }
         order.setStatus(OrderStatus.PARCEL_DELIVERY);
