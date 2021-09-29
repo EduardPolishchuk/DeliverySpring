@@ -24,11 +24,11 @@
                     <form method="post" action="${pageContext.request.contextPath}/login">
                         <div class="mb-3 ">
                             <label  class="form-label"><fmt:message key="userName"/></label><br>
-                            <input type="text" name="login" value="qwe" required>
+                            <input type="text" name="login" value="" required>
                         </div>
                         <div class="mb-3">
                             <label  class="form-label"><fmt:message key="password"/></label><br>
-                            <input type="password" name="password" value="1" required>
+                            <input type="password" name="password" value="" required>
                         </div>
                         <c:if test="${incorrect != null}">
                             <div class="alert alert-danger  p-2 " role="alert">

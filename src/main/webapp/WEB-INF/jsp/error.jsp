@@ -21,7 +21,7 @@
         <div class="col " style="text-align:center">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h4 class="display-5" style="text-align: center"><fmt:message key="somethingWrong"/> <%=exception%></h4>
+                    <h4 class="display-5" style="text-align: center"><fmt:message key="somethingWrong"/> </h4>
                     <form method="get" action="${pageContext.request.contextPath}/">
                         <button type="submit" class="btn btn-primary"><fmt:message key="home"/></button>
                     </form>
